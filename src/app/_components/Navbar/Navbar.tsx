@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { FaInstagram, FaFacebook, FaTiktok, FaTwitter, FaLinkedin, FaYoutube } from 'react-icons/fa'
 import { FaShoppingCart } from "react-icons/fa";
@@ -7,9 +7,17 @@ import { useTheme } from '@/context/ThemeContext';
 import { TfiShine } from 'react-icons/tfi';
 import { MdDarkMode } from 'react-icons/md';
 export default function Navbar() {
-
-
   const { theme, toggleTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // Prevent hydration mismatch by only rendering theme-dependent content after mount
+  // This is a standard Next.js pattern for preventing SSR/client mismatches
+  // The React Compiler warning is a false positive - this pattern is necessary for SSR compatibility
+  useEffect(() => {
+    setMounted(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return <>
     <nav className="w-full bg-background dark:bg-card shadow flex items-center justify-between px-6 py-4 ">
       {/* Left section: Brand */}
@@ -17,26 +25,26 @@ export default function Navbar() {
         <Link href='/' className="flex items-center font-bold text-xl text-green-600 dark:text-green-400"><FaShoppingCart />freshcart</Link>
         <div className="flex items-center gap-3">
           
-          <button onClick={toggleTheme} className="text-foreground hover:text-primary transition">
-            {theme === 'dark' ? <TfiShine /> : <MdDarkMode />}
+          <button onClick={toggleTheme} className=" text-green-600 dark:text-green-400    transition">
+            {mounted && theme === 'dark' ? <TfiShine /> : <MdDarkMode />}
           </button>
         </div>
         {/* Navigation links */}
         <ul className="flex items-center space-x-4 ml-8">
           <li>
-            <Link href="/" className="text-foreground hover:text-green-600 dark:hover:text-green-400 transition">Home</Link>
+            <Link href="/" className="text-green-600 dark:hover:text-green-400 transition">Home</Link>
           </li>
           <li>
-            <Link href="/cart" className="text-foreground hover:text-green-600 dark:hover:text-green-400 transition">Cart</Link>
+            <Link href="/cart" className="text-green-600 dark:hover:text-green-400 transition">Cart</Link>
           </li>
           <li>
-            <Link href="/product" className="text-foreground hover:text-green-600 dark:hover:text-green-400 transition">Products</Link>
+            <Link href="/product" className="text-green-600 dark:hover:text-green-400 transition">Products</Link>
           </li>
           <li>
-            <Link href="/categories" className="text-foreground hover:text-green-600 dark:hover:text-green-400 transition">Categories</Link>
+            <Link href="/categories" className="text-green-600 dark:hover:text-green-400 transition">Categories</Link>
           </li>
           <li>
-            <Link href="/brands" className="text-foreground hover:text-green-600 dark:hover:text-green-400 transition">Brands</Link>
+            <Link href="/brands" className="text-green-600 dark:hover:text-green-400 transition">Brands</Link>
           </li>
         </ul>
       </div>
