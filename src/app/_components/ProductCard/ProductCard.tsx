@@ -9,9 +9,13 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 export default function ProductCard({product}) {
   return <>
-   <Card>
+
+  <Card>
+  <Link href={`product/${product._id}`}>
   <CardHeader>
     <CardTitle> <img src={product.imageCover} /> </CardTitle>
 
@@ -33,6 +37,11 @@ export default function ProductCard({product}) {
     </span>
    </div>
   </CardFooter>
-</Card></>
+  </Link>
+  <Button className='bg-green-600 dark:bg-white w-[80%] mx-auto'>Add to card</Button>
+</Card>
+
+  
+  </>
 }
 
