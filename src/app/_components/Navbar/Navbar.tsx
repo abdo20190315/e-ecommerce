@@ -52,12 +52,12 @@ export default function Navbar() {
       <div className="flex items-center space-x-4">
      
         <div className="flex items-center space-x-2 ml-4">
-          <FaInstagram className="text-xl text-foreground hover:text-pink-500 dark:hover:text-pink-400 transition cursor-pointer" />
-          <FaFacebook className="text-xl text-foreground hover:text-blue-600 dark:hover:text-blue-400 transition cursor-pointer" />
-          <FaTiktok className="text-xl text-foreground hover:text-black dark:hover:text-gray-300 transition cursor-pointer" />
-          <FaTwitter className="text-xl text-foreground hover:text-blue-400 dark:hover:text-blue-300 transition cursor-pointer" />
-          <FaLinkedin className="text-xl text-foreground hover:text-blue-700 dark:hover:text-blue-500 transition cursor-pointer" />
-          <FaYoutube className="text-xl text-foreground hover:text-red-600 dark:hover:text-red-400 transition cursor-pointer" />
+          <FaInstagram className="text-xl text-green-600 hover:text-pink-500 dark:hover:text-pink-400 transition cursor-pointer" />
+          <FaFacebook className="text-xl text-green-600 hover:text-blue-600 dark:hover:text-blue-400 transition cursor-pointer" />
+          <FaTiktok className="text-xl text-green-600 hover:text-black dark:hover:text-gray-300 transition cursor-pointer" />
+          <FaTwitter className="text-xl text-green-600 hover:text-blue-400 dark:hover:text-blue-300 transition cursor-pointer" />
+          <FaLinkedin className="text-xl text-green-600 hover:text-blue-700 dark:hover:text-blue-500 transition cursor-pointer" />
+          <FaYoutube className="text-xl text-green-600 hover:text-red-600 dark:hover:text-red-400 transition cursor-pointer" />
         </div>
         <button className="text-foreground hover:text-primary transition"><Link href={'/register'}>Logout</Link> </button>
       </div>
