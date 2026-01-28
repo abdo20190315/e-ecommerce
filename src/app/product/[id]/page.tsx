@@ -30,7 +30,7 @@ const {id} = await params
             </svg>
           </span>
         </div>
-        <Button className='bg-green-600 dark:bg-white w-full mx-auto'>Add to card</Button>
+        <Button className='bg-green-600 dark:bg-white dark:hover:bg-green-600 w-full mx-auto'>Add to card</Button>
       </div>
     </div>
   );
