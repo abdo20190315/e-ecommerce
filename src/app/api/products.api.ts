@@ -1,7 +1,11 @@
 
 
 export default async  function getProduct(){
-    const response = await fetch(`https://ecommerce.routemisr.com/api/v1/products`)
+    const response = await fetch(`https://ecommerce.routemisr.com/api/v1/products`,{
+        method:'GET',
+        //  cache: 'force-cache'
+        next:{revalidate:60}
+    })
 
     const {data} = await response.json()
 
