@@ -99,6 +99,32 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* nav .active link style - light and dark */
+.active {
+  padding: 7px 18px;
+  border-radius: 9999px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #bbf7d0 0%, #34d399 100%);
+  color: #065f46;
+  box-shadow: 0 2px 8px 0 rgba(16,185,129,0.08), 0 0.5px 1px 0 rgba(20,184,166,0.12);
+  transition:
+    background 0.25s,
+    color 0.25s,
+    box-shadow 0.2s;
+  position: relative;
+  z-index: 1;
+}
+
+.dark .active {
+  background: linear-gradient(90deg, #166534 0%, #22c55e 100%);
+  color: #bbf7d0;
+  box-shadow: 0 2px 12px 0 rgba(22,101,52,0.18);
+}
+.dark .active::after {
+  background: #34d399;
+  box-shadow: 0 0 12px #bbf7d088;
+}
+
 body {
   background-color: var(--bg);
   color: var(--text);

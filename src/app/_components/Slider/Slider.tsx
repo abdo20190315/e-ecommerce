@@ -9,14 +9,14 @@ export default function Slider({data}) {
     <>
       <Swiper
         spaceBetween={0}
-        slidesPerView={7}
+        slidesPerView={6}
         modules={[Autoplay]}
         autoplay={{ delay: 2000 }}
       >
         {data.map((item) => (
           <SwiperSlide key={item._id}>
             <img src={item.image} alt={item.name} className='h-50 w-full' />
-            <p>{item.name}</p>
+            <p className='text-center text-slate-700 dark:text-white font-semibold'>{item.name}</p>
           </SwiperSlide>
         ))}
         
