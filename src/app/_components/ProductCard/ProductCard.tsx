@@ -38,7 +38,7 @@ export default function ProductCard({product}) {
    </div>
   </CardFooter>
   </Link>
-  <Button className='bg-green-600 dark:bg-white w-[80%] mx-auto'>Add to card</Button>
+  <Button className='bg-green-600 dark:bg-white  w-[80%] mx-auto'>Add to card</Button>
 </Card>
 
   
