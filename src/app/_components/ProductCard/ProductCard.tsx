@@ -17,7 +17,7 @@ export default function ProductCard({product}) {
   <Card>
   <Link href={`product/${product._id}`}>
   <CardHeader>
-    <CardTitle> <img src={product.imageCover} /> </CardTitle>
+    <CardTitle> <img src={product.imageCover} className='' /> </CardTitle>
 
     <CardDescription>{product.category.name}</CardDescription>
   

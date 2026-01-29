@@ -6,20 +6,19 @@ import { FaShoppingCart } from "react-icons/fa";
 import { useTheme } from '@/context/ThemeContext';
 import { TfiShine } from 'react-icons/tfi';
 import { MdDarkMode } from 'react-icons/md';
+import { usePathname } from 'next/navigation';
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // Prevent hydration mismatch by only rendering theme-dependent content after mount
-  // This is a standard Next.js pattern for preventing SSR/client mismatches
-  // The React Compiler warning is a false positive - this pattern is necessary for SSR compatibility
+  const path = usePathname()
   useEffect(() => {
     setMounted(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   }, []);
 
   return <>
-    <nav className="w-full bg-background dark:bg-card shadow flex items-center justify-between px-6 py-4 ">
+    <nav className="w-full  bg-background dark:bg-card shadow flex items-center  justify-between px-6 py-4 fixed top-0 left-0 z-50 ">
       {/* Left section: Brand */}
       <div className="flex items-center space-x-4">
         <Link href='/' className="flex items-center font-bold text-xl text-green-600 dark:text-green-400"><FaShoppingCart />freshcart</Link>
@@ -32,19 +31,19 @@ export default function Navbar() {
         {/* Navigation links */}
         <ul className="flex items-center space-x-4 ml-8">
           <li>
-            <Link href="/" className="text-green-600 dark:hover:text-green-400 transition">Home</Link>
+            <Link href="/" className={`text-green-600 ${path === '/' ? 'active' : ''}`}>Home</Link>
           </li>
           <li>
-            <Link href="/cart" className="text-green-600 dark:hover:text-green-400 transition">Cart</Link>
+            <Link href="/cart" className={`text-green-600 ${path === '/cart' ? 'active' : ''}`}>Cart</Link>
           </li>
           <li>
-            <Link href="/product" className="text-green-600 dark:hover:text-green-400 transition">Products</Link>
+            <Link href="/product" className={`text-green-600 ${path === '/product' ? 'active' : ''}`}>Products</Link>
           </li>
           <li>
-            <Link href="/categories" className="text-green-600 dark:hover:text-green-400 transition">Categories</Link>
+            <Link href="/categories" className={`text-green-600 ${path === '/categories' ? 'active' : ''}`}>Categories</Link>
           </li>
           <li>
-            <Link href="/brands" className="text-green-600 dark:hover:text-green-400 transition">Brands</Link>
+            <Link href="/brands" className={`text-green-600 ${path === '/brands' ? 'active' : ''}`}>Brands</Link>
           </li>
         </ul>
       </div>
