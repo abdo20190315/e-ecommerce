@@ -3,8 +3,9 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { Autoplay } from 'swiper/modules'
+import { CategoeryType } from '@/types/CategoeryType';
 
-export default function Slider({data}) {
+export default function Slider({data}:{data:CategoeryType}) {
   return (
     <>
       <Swiper
@@ -13,7 +14,7 @@ export default function Slider({data}) {
         modules={[Autoplay]}
         autoplay={{ delay: 2000 }}
       >
-        {data.map((item) => (
+        {data.map((item:CategoeryType) => (
           <SwiperSlide key={item._id}>
             <img src={item.image} alt={item.name} className='h-50 w-full' />
             <p className='text-center text-slate-700 dark:text-white font-semibold'>{item.name}</p>

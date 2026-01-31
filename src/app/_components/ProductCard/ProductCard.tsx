@@ -11,7 +11,8 @@ import {
   } from "@/components/ui/card"
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-export default function ProductCard({product}) {
+import { ProductType } from '@/types/productType';
+export default function ProductCard({product}:{product:ProductType}) {
   return <>
 
   <Card>

@@ -59,6 +59,7 @@ export default function Navbar() {
           <FaYoutube className="text-xl text-green-600 hover:text-red-600 dark:hover:text-red-400 transition cursor-pointer" />
         </div>
         <button className="text-foreground hover:text-primary transition"><Link href={'/register'}>Logout</Link> </button>
+        <Link href={'/register'}>Register</Link>
       </div>
     </nav>
     </>
