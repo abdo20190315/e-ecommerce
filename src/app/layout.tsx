@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./_components/Navbar/Navbar";
 import { ThemeProvider } from '@/context/ThemeContext';
+import { Toaster } from "@/components/ui/sonner"
+
 
 
 const geistSans = Geist({
@@ -32,9 +34,10 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         <ThemeProvider>
-          <div className="mb-20">
+          <div className="mb-18">
           <Navbar  />
           </div>
+          <Toaster />
           {children}
         </ThemeProvider>
       </body>

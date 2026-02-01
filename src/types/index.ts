@@ -1,0 +1,2 @@
+import { ProductType } from './productType';
+

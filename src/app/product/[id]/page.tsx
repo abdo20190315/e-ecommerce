@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import React from 'react'
 
-export default async function ProductDetails({params}) {
+export default async function ProductDetails({params}:{params:{id:string}}) {
 
 const {id} = await params
   const response = await fetch(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
