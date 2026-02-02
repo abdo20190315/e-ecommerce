@@ -1,2 +1,1 @@
-import { ProductType } from './productType';
-
+export * from './login'
