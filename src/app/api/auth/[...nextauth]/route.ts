@@ -1,8 +1,9 @@
+import { JWT } from 'next-auth/jwt';
 import { FailedLoginResponse, SuccessLoginResponse } from "@/types";
-import NextAuth from "next-auth";
+import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const handler = NextAuth({
+const handler : AuthOptions = NextAuth({
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -23,27 +24,41 @@ const handler = NextAuth({
 
         const payload :SuccessLoginResponse|FailedLoginResponse = await res.json();
 
-       if ('token' in payload) {
+        if ('token' in payload) {
           // You can customize user object
           return {
-            id:'payload.user.email',
-            user:payload.user,
-            token:payload.token,
+            id: payload.user.email,
+            user: payload.user,
+            token: payload.token,
           }
-        }else{
-              // If login fails, return null;
-            throw new Error(payload.message)
+        } else {
+          // If login fails, return null;
+          throw new Error(payload.message)
         }
-     
+
       }
     })
   ],
-  session: {
-    strategy: "jwt"
+  callbacks: {
+    jwt: ({ token, user }) => {//will encrypt the data 
+
+      if (user){
+        token.user = user.user;
+        token.token = user.token;
+      }
+
+      return token;//token {user , token}
+    },
+    session: ({session , token})=>{//return data will be used
+      session.user = token.user;
+      return session;
+    }
   },
   pages: {
-    signIn: "/login", // Create this page in your app if you want a custom login page
+    signIn: "/login", 
+    error: "/login"
   }
+
 });
 
 export { handler as GET, handler as POST }
