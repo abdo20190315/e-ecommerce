@@ -55,8 +55,8 @@ console.log(values);
 
   return <>
 
-  <div className="flex justify-center items-center ">
-    <div className="w-full max-w-lg bg-white rounded-xl shadow-lg px-5">
+  <div className="flex justify-center items-center  ">
+    <div className="w-full max-w-lg bg-white rounded-xl shadow-lg px-5 min-h-[75%]">
       <h1 className='text-2xl font-bold text-green-700 text-center mb-5 tracking-tight'>Register</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handelRegister)}>

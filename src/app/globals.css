@@ -269,7 +269,6 @@ body {
 .sk-circle .sk-circle12::before {
   animation-delay: -0.1s;
 }
-
 @keyframes sk-circleBounceDelay {
   0%, 80%, 100% {
     transform: scale(0);

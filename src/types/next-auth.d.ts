@@ -1,4 +1,4 @@
-import NextAuth from "next-auth"
+import { UserResponse } from "./login"
 
 declare module "next-auth" {
   /**
@@ -6,18 +6,19 @@ declare module "next-auth" {
    */
   interface Session {
     //need to  use in components
-   user:UserResponse
+    user: UserResponse
   }
-  interface User{
+  interface User {
     //will encrypt
-    user:UserResponse,
-    token:string
+    user: UserResponse,
+    token: string
   }
 }
 
-import { JWT } from "next-auth/jwt"
-
 declare module "next-auth/jwt" {
   /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
-  interface JWT extends User {}
+  interface JWT {
+    user: UserResponse,
+    token: string
+  }
 }
