@@ -51,13 +51,15 @@ const handler : AuthOptions = NextAuth({
     },
     session: ({session , token})=>{//return data will be used
       session.user = token.user;
+     
       return session;
     }
   },
   pages: {
     signIn: "/login", 
     error: "/login"
-  }
+  },
+  secret: process.env.AUTH_SECRET
 
 });
 

@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import AddToCart from '@/app/_components/AddTocart/AddToCart';
 import React from 'react'
 
 export default async function ProductDetails({params}:{params:{id:string}}) {
@@ -30,7 +30,9 @@ const {id} = await params
             </svg>
           </span>
         </div>
-        <Button className='bg-green-600 dark:bg-white dark:hover:bg-green-600 w-full mx-auto'>Add to card</Button>
+        <div className='w-full'>
+        <AddToCart productId={data._id}/>
+        </div>
       </div>
     </div>
   );

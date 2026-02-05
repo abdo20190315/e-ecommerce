@@ -1,5 +1,5 @@
 'use client'
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode, useMemo, useCallback } from 'react';
 
 interface ThemeContextType {
   theme: string;
@@ -33,11 +33,14 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     localStorage.setItem('theme', theme);
   }, [theme, isInitialized]);
 
-  const toggleTheme = () =>
+  const toggleTheme = useCallback(() => {
     setTheme(t => (t === 'light' ? 'dark' : 'light'));
+  }, []);
+
+  const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme]);
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );
