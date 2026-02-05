@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "./_components/Navbar/Navbar";
 import { ThemeProvider } from '@/context/ThemeContext';
 import { Toaster } from "react-hot-toast"
+import MySessionProvider from "./_components/mySessionProvider/MySessionProvider";
 
 
 
@@ -33,7 +34,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning={true}
       >
-        <ThemeProvider>
+       <MySessionProvider>
+       <ThemeProvider>
           <div className="mb-18">
           <Navbar  />
           </div>
@@ -41,6 +43,9 @@ export default function RootLayout({
           {children}
           <Toaster />
         </ThemeProvider>
+
+       </MySessionProvider>
+       
       </body>
     </html>
   );
