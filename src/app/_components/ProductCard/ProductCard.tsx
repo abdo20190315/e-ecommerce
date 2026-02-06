@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { FaStar } from 'react-icons/fa';
 import {
     Card,
@@ -10,9 +10,10 @@ import {
     CardTitle,
   } from "@/components/ui/card"
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { ProductType } from '@/types/productType';
-export default function ProductCard({product}:{product:ProductType}) {
+import AddToCart from '../AddTocart/AddToCart';
+
+const ProductCard = memo(function ProductCard({product}:{product:ProductType}) {
   return <>
 
   <Card>
@@ -39,10 +40,12 @@ export default function ProductCard({product}:{product:ProductType}) {
    </div>
   </CardFooter>
   </Link>
-  <Button className='bg-green-600 dark:bg-white  w-[80%] mx-auto'>Add to card</Button>
+ <AddToCart productId={product._id}/>
 </Card>
 
   
   </>
-}
+});
+
+export default ProductCard;
 

@@ -1,12 +1,24 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { FaInstagram, FaFacebook, FaTiktok, FaTwitter, FaLinkedin, FaYoutube } from 'react-icons/fa'
+import { FaInstagram, FaFacebook, FaTiktok, FaTwitter, FaLinkedin, FaYoutube, FaUserAlt } from 'react-icons/fa'
 import { FaShoppingCart } from "react-icons/fa";
 import { useTheme } from '@/context/ThemeContext';
 import { TfiShine } from 'react-icons/tfi';
 import { MdDarkMode } from 'react-icons/md';
 import { usePathname } from 'next/navigation';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { FaCartShopping } from 'react-icons/fa6';
+import { Badge } from "@/components/ui/badge"
+
+
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -18,46 +30,71 @@ export default function Navbar() {
   }, []);
 
   return <>
-    <nav className="w-full  bg-background dark:bg-card shadow flex items-center  justify-between px-6 py-4 fixed top-0 left-0 z-50 ">
-      {/* Left section: Brand */}
-      <div className="flex items-center space-x-4">
-        <Link href='/' className="flex items-center font-bold text-xl text-green-600 dark:text-green-400"><FaShoppingCart />freshcart</Link>
-        <div className="flex items-center gap-3">
-          
-          <button onClick={toggleTheme} className=" text-green-600 dark:text-green-400    transition">
-            {mounted && theme === 'dark' ? <TfiShine /> : <MdDarkMode />}
-          </button>
-        </div>
-        {/* Navigation links */}
-        <ul className="flex items-center space-x-4 ml-8">
-          <li>
-            <Link href="/" className={`text-green-600 ${path === '/' ? 'active' : ''}`}>Home</Link>
-          </li>
-          <li>
-            <Link href="/cart" className={`text-green-600 ${path === '/cart' ? 'active' : ''}`}>Cart</Link>
-          </li>
-          <li>
-            <Link href="/product" className={`text-green-600 ${path === '/product' ? 'active' : ''}`}>Products</Link>
-          </li>
-          <li>
-            <Link href="/categories" className={`text-green-600 ${path === '/categories' ? 'active' : ''}`}>Categories</Link>
-          </li>
-          <li>
-            <Link href="/brands" className={`text-green-600 ${path === '/brands' ? 'active' : ''}`}>Brands</Link>
-          </li>
-        </ul>
+    <nav className="w-full bg-background dark:bg-card shadow flex items-center justify-between px-6 py-4 fixed top-0 left-0 z-50">
+      {/* Brand on left */}
+      <div className="flex items-center">
+        <Link href='/' className="flex items-center font-bold text-xl text-green-600 dark:text-green-400">
+          <FaShoppingCart className="mr-1" />freshcart
+        </Link>
       </div>
-      {/* Right section: Social Icons and Logout */}
+      {/* Navigation links centered */}
+      <ul className="flex items-center space-x-4 mx-auto">
+        <li>
+          <Link href="/" className={`text-green-600 ${path === '/' ? 'active' : ''}`}>Home</Link>
+        </li>
+        <li>
+          <Link href="/cart" className={`text-green-600 ${path === '/cart' ? 'active' : ''}`}>Cart</Link>
+        </li>
+        <li>
+          <Link href="/product" className={`text-green-600 ${path === '/product' ? 'active' : ''}`}>Products</Link>
+        </li>
+        <li>
+          <Link href="/categories" className={`text-green-600 ${path === '/categories' ? 'active' : ''}`}>Categories</Link>
+        </li>
+        <li>
+          <Link href="/brands" className={`text-green-600 ${path === '/brands' ? 'active' : ''}`}>Brands</Link>
+        </li>
+      </ul>
+      {/* Right section: Theme toggle and User Dropdown */}
       <div className="flex items-center space-x-4">
-     
-        <div className="flex items-center space-x-2 ml-4">
-         
-        <button className="text-foreground hover:text-primary transition"><Link href={'/register'}>Logout</Link> </button>
-        <Link href={'/register'}>Register</Link>
-        <Link href={'/login'}>Login</Link>
+
+        <div className="relative flex items-center">
+          <Link href='/cart'>
+            <FaCartShopping className="text-2xl text-green-600 dark:text-green-400" />
+            <Badge
+              className="absolute -top-3 -right-3 px-2 py-0.5 text-xs pointer-events-none border-green-500 bg-white dark:bg-card text-green-600 dark:text-green-400 shadow"
+              variant="outline"
+            >
+              8
+            </Badge>
+          </Link>
         </div>
+        <button
+          onClick={toggleTheme}
+          className="text-green-600 dark:text-green-400 transition"
+          aria-label="Toggle Theme"
+        >
+          {mounted && theme === 'dark' ? <TfiShine /> : <MdDarkMode />}
+        </button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild className='text-green-500'>
+            <button  aria-label="Open user menu" className="text-foreground"><FaUserAlt /></button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Link href={'/logout'} className="text-foreground hover:text-primary transition">Logout</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={'/register'}>Register</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={'/login'}>Login</Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
-      
     </nav>
     </>
 }
