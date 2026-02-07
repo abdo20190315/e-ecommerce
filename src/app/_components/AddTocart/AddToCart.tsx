@@ -1,11 +1,14 @@
 'use client'
 import { addToCart } from '@/app/product/_action/addToCart.action'
 import { Button } from '@/components/ui/button'
-import React, { useState, useCallback, memo, useRef } from 'react'
+import React, { useState, useCallback, memo, useRef, useContext } from 'react'
 import { FaCartShopping } from 'react-icons/fa6';
 import { toast } from 'react-hot-toast';
+import { cartContext } from '@/context/CartContext';
 
 const AddToCart = memo(function AddToCart({ productId }: { productId: string }) {
+
+const {getCart , setCartData}=  useContext(cartContext)
     const [isloading, setIsloading] = useState(false)
     const isLoadingRef = useRef(false);
 
@@ -17,6 +20,9 @@ const AddToCart = memo(function AddToCart({ productId }: { productId: string }) 
       const data = await addToCart(productId);
       if (data.status === 'success') {
         toast.success('Product added successfully');
+        setCartData(data)
+        // await getCart()
+
       } else {
         toast.error('Product failed to be added');
       }

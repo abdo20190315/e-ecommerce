@@ -5,6 +5,7 @@ import Navbar from "./_components/Navbar/Navbar";
 import { ThemeProvider } from '@/context/ThemeContext';
 import { Toaster } from "react-hot-toast"
 import MySessionProvider from "./_components/mySessionProvider/MySessionProvider";
+import CartContextProvider from "@/context/CartContext";
 
 
 
@@ -34,7 +35,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning={true}
       >
-       <MySessionProvider>
+        <CartContextProvider>
+        <MySessionProvider>
        <ThemeProvider>
           <div className="mb-18">
           <Navbar  />
@@ -45,6 +47,9 @@ export default function RootLayout({
         </ThemeProvider>
 
        </MySessionProvider>
+
+        </CartContextProvider>
+      
        
       </body>
     </html>

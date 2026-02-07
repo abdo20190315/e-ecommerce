@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { FaInstagram, FaFacebook, FaTiktok, FaTwitter, FaLinkedin, FaYoutube, FaUserAlt } from 'react-icons/fa'
 import { FaShoppingCart } from "react-icons/fa";
@@ -17,9 +17,14 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { FaCartShopping } from 'react-icons/fa6';
 import { Badge } from "@/components/ui/badge"
+import CartContextProvider, { cartContext } from '@/context/CartContext';
+import { Loader } from 'lucide-react';
+import Loading from '@/app/loading';
 
 
 export default function Navbar() {
+
+
   const { theme, toggleTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -28,6 +33,7 @@ export default function Navbar() {
     setMounted(true);
    
   }, []);
+ const {cartData , isLoading}= useContext(cartContext)
 
   return <>
     <nav className="w-full bg-background dark:bg-card shadow flex items-center justify-between px-6 py-4 fixed top-0 left-0 z-50">
@@ -65,7 +71,7 @@ export default function Navbar() {
               className="absolute -top-3 -right-3 px-2 py-0.5 text-xs pointer-events-none border-green-500 bg-white dark:bg-card text-green-600 dark:text-green-400 shadow"
               variant="outline"
             >
-              8
+              {isLoading ? <Loading className="w-4 h-4 animate-spin" /> : cartData?.numOfCartItems}
             </Badge>
           </Link>
         </div>
