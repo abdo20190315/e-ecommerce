@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { Autoplay } from 'swiper/modules'
 import { CategoeryType } from '@/types/CategoeryType';
-import Image from 'next/image';
+// import Image from 'next/image';
 
 export default function Slider({data}:{data:CategoeryType}) {
   return (
