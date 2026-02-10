@@ -7,6 +7,7 @@ import { cartContext } from "@/context/CartContext";
 import Loading from "../loading";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import CheckOut from "../_components/checkOut/CheckOut";
 
 export default function Cart() {
  const {cartData ,isLoading , getCart ,setCartData}= useContext(cartContext)
@@ -25,7 +26,7 @@ export default function Cart() {
   const response = await fetch(`https://ecommerce.routemisr.com/api/v1/cart/${productId}`,{
     method:'DELETE',
     headers:{
-      token :"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODJhMmFhYmFiODkzZmViMzY1NDQ2MiIsIm5hbWUiOiJBYmRlbHJhaG1hbiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzcwNTY1MzE2LCJleHAiOjE3NzgzNDEzMTZ9.fgiNSaIf0BBUisKjyLJmJbZtWrj1fy-Ap29bkEfzT0I"
+      token :"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODJhMmFhYmFiODkzZmViMzY1NDQ2MiIsIm5hbWUiOiJBYmRlbHJhaG1hbiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzcwNjY5MjM0LCJleHAiOjE3Nzg0NDUyMzR9.ChGfroYZ1lz6OLXkYNly0xf2mh13yXrlaQbTirbcYIo"
     }
   })
   const data = await response.json()
@@ -46,7 +47,7 @@ export default function Cart() {
     method:'PUT',
     headers:{
       "Content-Type": "application/json",
-      token :"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODJhMmFhYmFiODkzZmViMzY1NDQ2MiIsIm5hbWUiOiJBYmRlbHJhaG1hbiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzcwNTY1MzE2LCJleHAiOjE3NzgzNDEzMTZ9.fgiNSaIf0BBUisKjyLJmJbZtWrj1fy-Ap29bkEfzT0I"
+      token :"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODJhMmFhYmFiODkzZmViMzY1NDQ2MiIsIm5hbWUiOiJBYmRlbHJhaG1hbiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzcwNjY5MjM0LCJleHAiOjE3Nzg0NDUyMzR9.ChGfroYZ1lz6OLXkYNly0xf2mh13yXrlaQbTirbcYIo"
     },
     body: JSON.stringify({ count })
   })
@@ -68,7 +69,7 @@ export default function Cart() {
   const response = await fetch(`https://ecommerce.routemisr.com/api/v1/cart`,{
     method:'Delete',
     headers:{
-      token :"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODJhMmFhYmFiODkzZmViMzY1NDQ2MiIsIm5hbWUiOiJBYmRlbHJhaG1hbiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzcwNTY1MzE2LCJleHAiOjE3NzgzNDEzMTZ9.fgiNSaIf0BBUisKjyLJmJbZtWrj1fy-Ap29bkEfzT0I",
+      token :"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODJhMmFhYmFiODkzZmViMzY1NDQ2MiIsIm5hbWUiOiJBYmRlbHJhaG1hbiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzcwNjY5MjM0LCJleHAiOjE3Nzg0NDUyMzR9.ChGfroYZ1lz6OLXkYNly0xf2mh13yXrlaQbTirbcYIo"
     
     }
   })
@@ -160,9 +161,8 @@ export default function Cart() {
                 <span>{cartData?.data.totalCartPrice} EGP</span>
               </div>
               <div className="space-y-3">
-                <Button className="w-full h-11 text-base">
-                  Proceed to Checkout
-                </Button>
+                <CheckOut cartId={cartData?.cartId}/>
+              
                 <Button variant="secondary" className="w-full h-11 text-base">
                   Continue Shopping
                 </Button>
