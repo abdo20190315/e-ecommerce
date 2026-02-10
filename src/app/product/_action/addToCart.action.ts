@@ -17,7 +17,7 @@ export async function addToCart(productId: string) {
         method: 'POST',
         body: JSON.stringify({ productId }),
         headers: {
-            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODJhMmFhYmFiODkzZmViMzY1NDQ2MiIsIm5hbWUiOiJBYmRlbHJhaG1hbiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzcwNTY1MzE2LCJleHAiOjE3NzgzNDEzMTZ9.fgiNSaIf0BBUisKjyLJmJbZtWrj1fy-Ap29bkEfzT0I",
+            token: process.env.TOKEN,
             "content-type": "application/json"
         } 
     });
