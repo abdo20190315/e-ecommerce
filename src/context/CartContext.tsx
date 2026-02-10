@@ -6,7 +6,7 @@ import {ReactNode, createContext, useEffect,  useState} from "react";
 
  export const cartContext=   createContext<{
   cartData: CartResponse | null;
-  setCartData: (value:CartResponse | null) => void;
+  setCartData: (value:z | null) => void;
   isLoading: boolean;
   setIsloading: (value:boolean) => void;
   getCart:()=>void;

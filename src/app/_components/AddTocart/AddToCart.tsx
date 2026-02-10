@@ -5,50 +5,94 @@ import React, { useState, useCallback, memo, useRef, useContext } from 'react'
 import { FaCartShopping } from 'react-icons/fa6';
 import { toast } from 'react-hot-toast';
 import { cartContext } from '@/context/CartContext';
+import { FaRegHeart , FaHeart  } from 'react-icons/fa';
+import { useWishlist } from '@/context/WishlistContext';
+import { addToWishlist } from '@/app/wishlist/_action/addToWishlist.action';
+import { removeFromWishlist } from '@/app/wishlist/_action/removeFromWishlist.action';
 
 const AddToCart = memo(function AddToCart({ productId }: { productId: string }) {
 
 const {getCart , setCartData}=  useContext(cartContext)
+const { wishlist, setWishlist } = useWishlist();
+const isInWishlist = wishlist.includes(productId);
+
     const [isloading, setIsloading] = useState(false)
+    const [wishLoading, setWishLoading] = useState(false);
+
+
     const isLoadingRef = useRef(false);
 
-  const handleAddToCart = useCallback(async () => {
-    if (isLoadingRef.current) return;
-    isLoadingRef.current = true;
-    setIsloading(true);
-    try {
-      const data = await addToCart(productId);
-      if (data.status === 'success') {
-        toast.success('Product added successfully');
-        setCartData(data)
-        // await getCart()
-
-      } else {
-        toast.error('Product failed to be added');
+    const handleAddToCart = useCallback(async () => {
+      if (isLoadingRef.current) return;
+      isLoadingRef.current = true;
+      setIsloading(true);
+    
+      try {
+        const data = await addToCart(productId);
+        if (data.status === 'success') {
+          toast.success('Product added successfully');
+          setCartData(data)
+        } else {
+          toast.error('Product failed to be added');
+        }
+      } catch (error) {
+        toast.error('An error occurred while adding to cart');
+      } finally {
+        isLoadingRef.current = false;
+        setIsloading(false);
       }
-    } catch (error) {
-      toast.error('An error occurred while adding to cart');
-      console.error(error);
-    } finally {
-      isLoadingRef.current = false;
-      setIsloading(false);
+    }, [productId]);
+    
+    // ⭐ toggle wishlist
+    async function toggleWishlist() {
+      if (wishLoading) return;
+    
+      setWishLoading(true);
+    
+      try {
+        if (isInWishlist) {
+          await removeFromWishlist(productId);
+          setWishlist(wishlist.filter(id => id !== productId));
+          toast.success("Removed from wishlist");
+        } else {
+          await addToWishlist(productId);
+          setWishlist([...wishlist, productId]);
+          toast.success("Added to wishlist");
+        }
+      } finally {
+        setWishLoading(false);
+      }
     }
-  }, [productId]);
 
   return (
     <>
-      <Button
-        onClick={handleAddToCart}
-        className='bg-green-600 dark:bg-white  w-[80%] mx-auto'
-        disabled={isloading}
-      >
-       {isloading ? (
-         <span className='animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full' />
-       ) : (
-         <FaCartShopping />
-       )}
-        Add to cart
-      </Button>
+     <div className="flex items-center justify-between w-[80%] gap-2 mx-auto">
+    <Button
+      onClick={handleAddToCart}
+      className="bg-green-600 dark:bg-white flex-1"
+      disabled={isloading}
+    >
+      {isloading ? (
+        <span className="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
+      ) : (
+        <FaCartShopping />
+      )}
+      Add to cart
+    </Button>
+
+    <button
+      onClick={toggleWishlist}
+      className="ml-2 text-xl"
+    >
+      {isInWishlist ? (
+        <FaHeart className="text-red-500" />
+      ) : (
+        <FaRegHeart className="text-gray-400" />
+      )}
+    </button>
+  </div>
+     
+
     </>
   );
 });
