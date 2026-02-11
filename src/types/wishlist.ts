@@ -11,4 +11,17 @@ export interface WishlistProduct {
     count: number;
     data: WishlistProduct[];
   }
+  export interface WishlistCategory {
+    _id: string;
+    name: string;
+    slug: string;
+    image: string;
+  }
+  
+  export interface WishlistBrand {
+    _id: string;
+    name: string;
+    slug: string;
+    image: string;
+  }
   
