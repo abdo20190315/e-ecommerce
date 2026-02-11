@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/context/ThemeContext';
 import { Toaster } from "react-hot-toast"
 import MySessionProvider from "./_components/mySessionProvider/MySessionProvider";
 import CartContextProvider from "@/context/CartContext";
+import { WishlistProvider } from "@/context/WishlistContext";
 
 
 
@@ -35,6 +36,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning={true}
       >
+        <WishlistProvider>
         <CartContextProvider>
         <MySessionProvider>
        <ThemeProvider>
@@ -49,6 +51,9 @@ export default function RootLayout({
        </MySessionProvider>
 
         </CartContextProvider>
+
+        </WishlistProvider>
+        
       
        
       </body>

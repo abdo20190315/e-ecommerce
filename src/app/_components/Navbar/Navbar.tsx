@@ -1,5 +1,6 @@
 'use client'
 import React, { useContext, useEffect, useState } from 'react'
+
 import Link from 'next/link'
 import { FaInstagram, FaFacebook, FaTiktok, FaTwitter, FaLinkedin, FaYoutube, FaUserAlt } from 'react-icons/fa'
 import { FaShoppingCart } from "react-icons/fa";
@@ -18,11 +19,14 @@ import {
 import { FaCartShopping } from 'react-icons/fa6';
 import { Badge } from "@/components/ui/badge"
 import CartContextProvider, { cartContext } from '@/context/CartContext';
-import { Loader } from 'lucide-react';
 import Loading from '@/app/loading';
+import { useWishlist } from "@/context/WishlistContext";
+import { FaHeart } from "react-icons/fa";
 
 
 export default function Navbar() {
+  const { wishlist } = useWishlist();
+
 
 
   const { theme, toggleTheme } = useTheme();
@@ -63,6 +67,18 @@ export default function Navbar() {
       </ul>
       {/* Right section: Theme toggle and User Dropdown */}
       <div className="flex items-center space-x-4">
+          {/* Wishlist Icon */}
+          <div className="relative">
+          <FaHeart className="w-6 h-6 text-green-500" />
+          
+          {/* Badge */}
+          {wishlist.length > 0 && (
+            <Badge className="absolute -top-3 -right-3 px-2 py-0.5 text-xs pointer-events-none border-green-500 bg-white dark:bg-card text-green-600 dark:text-green-400 shadow rounded-full flex items-center justify-center">
+              {wishlist.length}
+            </Badge>
+          )}
+        </div>
+        
 
         <div className="relative flex items-center">
           <Link href='/cart'>
@@ -75,6 +91,7 @@ export default function Navbar() {
             </Badge>
           </Link>
         </div>
+        
         <button
           onClick={toggleTheme}
           className="text-green-600 dark:text-green-400 transition"
