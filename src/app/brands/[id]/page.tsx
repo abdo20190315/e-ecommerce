@@ -23,7 +23,7 @@ export default async function BrandDetails({ params }: { params: { id: string } 
   }
 
   return (
-    <div className="container mx-auto my-10 p-4">
+    <div className="container mx-auto my-10 p-4 ">
       <h1 className="text-3xl font-bold mb-8 text-center text-gray-900 dark:text-white">
         Products from this brand
       </h1>
@@ -31,7 +31,7 @@ export default async function BrandDetails({ params }: { params: { id: string } 
         {data.map((product: ProductType) => (
           <div
             key={product._id}
-            className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5"
+            className="w-full  sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5"
           >
             <div className="product p-5 bg-white dark:bg-gray-900 rounded-lg shadow">
               <ProductCard product={product} />

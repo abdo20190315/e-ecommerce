@@ -17,6 +17,7 @@ import { formSchema } from "@/schema/loginValidation"
 import { signIn } from "next-auth/react"
 import { useSearchParams } from "next/navigation"
 import Loading from "../loading"
+import Link from "next/link"
 
 
 
@@ -105,7 +106,10 @@ async function onSubmit(values: FormFields) {
 
           <Button className="w-full" type="submit">
             {isloading && <span className='animate-spin'><Loading /></span>}Login
-          </Button>
+          </Button >
+         <Link href='/forgot-password'>
+         <Button className="w-full" type="submit"> forgot password</Button>
+         </Link>
         </form>
       </Form>
 
