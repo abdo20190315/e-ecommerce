@@ -68,7 +68,8 @@ export default function Navbar() {
       {/* Right section: Theme toggle and User Dropdown */}
       <div className="flex items-center space-x-4">
           {/* Wishlist Icon */}
-          <div className="relative">
+         <Link href='/wishlist'>
+         <div className="relative">
           <FaHeart className="w-6 h-6 text-green-500" />
           
           {/* Badge */}
@@ -79,6 +80,7 @@ export default function Navbar() {
           )}
         </div>
         
+         </Link>
 
         <div className="relative flex items-center">
           <Link href='/cart'>
