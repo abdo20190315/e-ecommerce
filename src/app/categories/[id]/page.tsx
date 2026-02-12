@@ -3,10 +3,10 @@ import ProductCard from '@/app/_components/ProductCard/ProductCard';
 import { ProductType } from '@/types/productType';
 import React from 'react'
 
-export default async function CategoriesDetails({ params }: { params: { id: string } }) {
+export default async function CategoriesDetails({params,}: {params: Promise<{ id: string }>;}) {
   const { id } = await params;
 
-  const response = await fetch(`https://ecommerce.routemisr.com/api/v1/products?categories=${id}`,{
+  const response = await fetch(`https://ecommerce.routemisr.com/api/v1/products?category=${id}`,{
     next:{revalidate:60}
   }
   );
