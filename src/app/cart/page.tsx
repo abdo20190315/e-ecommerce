@@ -2,93 +2,79 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, SettingsIcon, Trash2 } from "lucide-react";
+import { Minus, Plus, Trash2 } from "lucide-react";
 import { cartContext } from "@/context/CartContext";
 import Loading from "../loading";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import CheckOut from "../_components/checkOut/CheckOut";
 
+import { removeCartItemAction } from "@/app/cart/_action/removeCartItem.action";
+import { updateCartItemAction } from "@/app/cart/_action/updateCartItem.action";
+import { clearCartAction } from "@/app/cart/_action/clearCart.action";
+
 export default function Cart() {
- const {cartData ,isLoading , getCart ,setCartData}= useContext(cartContext)
- const [removingId, setRemovingId] = useState < null | string>(null)
- const [updatingId, setUpdatingId] = useState < null | string>(null)
- const [isClearing, setIsClearing] = useState < boolean>(false)
+  const { cartData, isLoading, getCart, setCartData } = useContext(cartContext);
+  const [removingId, setRemovingId] = useState<null | string>(null);
+  const [updatingId, setUpdatingId] = useState<null | string>(null);
+  const [isClearing, setIsClearing] = useState<boolean>(false);
 
- useEffect(() => {
-  if( typeof cartData?.data?.products[0]?.product == 'string' || cartData == null){
-    getCart()
-  }
- }, [cartData, getCart]) 
-
- async function removeCartItem(productId : string){
-  setRemovingId(productId)
-  const response = await fetch(`https://ecommerce.routemisr.com/api/v1/cart/${productId}`,{
-    method:'DELETE',
-    headers:{
-      token :"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODJhMmFhYmFiODkzZmViMzY1NDQ2MiIsIm5hbWUiOiJBYmRlbHJhaG1hbiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzcwODQwNTE4LCJleHAiOjE3Nzg2MTY1MTh9.Xu8R40q2c-HUONB7mPf2P3re53NDQbBFusBZMfedeTk"
+  useEffect(() => {
+    if (typeof cartData?.data?.products[0]?.product == "string" || cartData == null) {
+      getCart();
     }
-  })
-  const data = await response.json()
-  
+  }, [cartData, getCart]);
 
-  console.log(data);
-  if (data.status == "success"){
-    setCartData(data)
-    toast.success("item deleted successfully")
-  }
- setRemovingId(null)
-  
- }
- // Fix ubdateCartItem to accept both productId and newCount, send count in body, and set updatingId correctly
- async function ubdateCartItem(productId: string, count: number){
-  setUpdatingId(productId)
-  const response = await fetch(`https://ecommerce.routemisr.com/api/v1/cart/${productId}`,{
-    method:'PUT',
-    headers:{
-      "Content-Type": "application/json",
-      token :"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODJhMmFhYmFiODkzZmViMzY1NDQ2MiIsIm5hbWUiOiJBYmRlbHJhaG1hbiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzcwODQwNTE4LCJleHAiOjE3Nzg2MTY1MTh9.Xu8R40q2c-HUONB7mPf2P3re53NDQbBFusBZMfedeTk"
-    },
-    body: JSON.stringify({ count })
-  })
-  const data = await response.json()
-  
-
-  console.log(data);
-  if (data.status == "success"){
-    setCartData(data)
-    toast.success("Product Quantity updated successfully")
-  }
-  setUpdatingId(null)
-  
- }
- 
- 
- async function clearItem(){
-  setIsClearing(true)
-  const response = await fetch(`https://ecommerce.routemisr.com/api/v1/cart`,{
-    method:'Delete',
-    headers:{
-      token :"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODJhMmFhYmFiODkzZmViMzY1NDQ2MiIsIm5hbWUiOiJBYmRlbHJhaG1hbiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzcwNjY5MjM0LCJleHAiOjE3Nzg0NDUyMzR9.ChGfroYZ1lz6OLXkYNly0xf2mh13yXrlaQbTirbcYIo"
-    
+  // ================= Server Actions =================
+  async function removeCartItem(productId: string) {
+    setRemovingId(productId);
+    try {
+      const data = await removeCartItemAction(productId);
+      if (data.status == "success") {
+        setCartData(data);
+        toast.success("Item deleted successfully");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to remove item");
     }
-  })
-  const data = await response.json()
-  console.log(data);
-  
-  
-
- 
-  if (data.message == "success"){
-    setCartData(null)
-    toast.success("cart cleared successfully")
+    setRemovingId(null);
   }
-  setIsClearing(false)
-  
-}
+
+  async function ubdateCartItem(productId: string, count: number) {
+    setUpdatingId(productId);
+    try {
+      const data = await updateCartItemAction(productId, count);
+      if (data.status == "success") {
+        setCartData(data);
+        toast.success("Product quantity updated successfully");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to update item");
+    }
+    setUpdatingId(null);
+  }
+
+  async function clearItem() {
+    setIsClearing(true);
+    try {
+      const data = await clearCartAction();
+      if (data.message == "success") {
+        setCartData(null);
+        toast.success("Cart cleared successfully");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to clear cart");
+    }
+    setIsClearing(false);
+  }
+
+
 
   return (
-    <>{isLoading || typeof cartData?.data.products[0]?.product == 'string'?<Loading/> : (cartData?.numOfCartItems ?? 0) > 0  ?<div className="container mx-auto px-4 py-10">
+    <>{isLoading || typeof cartData?.data.products[0]?.product == 'string'?<Loading/> : (cartData?.numOfCartItems ?? 0) > 0  ?<div className="container mx-auto px-4 py-10 min-h-[500px] flex items-center justify-center">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold">Shopping Cart</h1>
