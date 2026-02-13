@@ -1,4 +1,8 @@
+'use server'
+
+import DecodeToken from "@/app/_components/Token/Token";
 export async function addToWishlist(productId: string) {
+  const accessToken = await DecodeToken();  
   
   
     const res = await fetch(
@@ -6,7 +10,7 @@ export async function addToWishlist(productId: string) {
       {
         method: "POST",
         headers: {
-          token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODJhMmFhYmFiODkzZmViMzY1NDQ2MiIsIm5hbWUiOiJBYmRlbHJhaG1hbiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzcwODQwNTE4LCJleHAiOjE3Nzg2MTY1MTh9.Xu8R40q2c-HUONB7mPf2P3re53NDQbBFusBZMfedeTk",
+          token:accessToken?.token!,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ productId }),

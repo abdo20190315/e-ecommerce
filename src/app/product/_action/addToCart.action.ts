@@ -1,15 +1,10 @@
 'use server'
 
-import { decode } from "next-auth/jwt";
-import { cookies } from "next/headers";
+import DecodeToken from "@/app/_components/Token/Token";
 
 export async function addToCart(productId: string) {
-     const x = (await cookies()).get('next-auth.session-token')?.value;
-    const accessToken = await decode({ token: x, secret: process.env.NEXTAUTH_SECRET! });
-   
-   //console.log(accessToken?.token);
-  //  console.log("decoded:", accessToken);
-    //  console.log("actualToken:", actualToken);
+
+    const accessToken = await DecodeToken();  
 
 
 
@@ -17,8 +12,8 @@ export async function addToCart(productId: string) {
         method: 'POST',
         body: JSON.stringify({ productId }),
         headers: {
-            token: process.env.TOKEN,
-            "content-type": "application/json"
+            token :accessToken?.token!,
+            "Content-Type": "application/json"
         } 
     });
     const data = await response.json();
