@@ -8,7 +8,6 @@ import img5 from '../../../../public/images/blog-img-2.jpeg'
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import Image from 'next/image';
 import { Autoplay } from 'swiper/modules'
 
 export default function HomeSlider() {
@@ -23,19 +22,19 @@ export default function HomeSlider() {
             autoplay={{ delay: 2000 }}
           >
             <SwiperSlide>
-              <Image src={img1} alt="img" className="h-100 object-cover w-full" />
+              <img src={img1.src} alt="Hero slider image 1" className="h-100 object-cover w-full" />
             </SwiperSlide>
             <SwiperSlide>
-              <Image src={img2} alt="img" className="h-100 object-cover w-full" />
+              <img src={img2.src} alt="Hero slider image 2" className="h-100 object-cover w-full" />
             </SwiperSlide>
             <SwiperSlide>
-              <Image src={img3} alt="img" className="h-100 object-cover w-full" />
+              <img src={img3.src} alt="Hero slider image 3" className="h-100 object-cover w-full" />
             </SwiperSlide>
           </Swiper>
         </div>
         <div className="w-1/4 flex flex-col gap-4">
-          <Image src={img4} alt="img" className="h-50 object-cover w-full" />
-          <Image src={img5} alt="img" className="h-50 object-cover w-full" />
+          <img src={img4.src} alt="Featured blog image 1" className="h-50 object-cover w-full" loading="lazy" />
+          <img src={img5.src} alt="Featured blog image 2" className="h-50 object-cover w-full" loading="lazy" />
         </div>
       </div>
     </>

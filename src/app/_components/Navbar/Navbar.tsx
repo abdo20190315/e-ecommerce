@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 
 import Link from 'next/link'
-import { FaInstagram, FaFacebook, FaTiktok, FaTwitter, FaLinkedin, FaYoutube, FaUserAlt } from 'react-icons/fa'
+import { FaUserAlt } from 'react-icons/fa'
 import { FaShoppingCart } from "react-icons/fa";
 import { useTheme } from '@/context/ThemeContext';
 import { TfiShine } from 'react-icons/tfi';
@@ -18,13 +18,18 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { FaCartShopping } from 'react-icons/fa6';
 import { Badge } from "@/components/ui/badge"
-import CartContextProvider, { cartContext } from '@/context/CartContext';
-import Loading from '@/app/loading';
+import { cartContext } from '@/context/CartContext';
 import { useWishlist } from "@/context/WishlistContext";
 import { FaHeart } from "react-icons/fa";
+import { signOut, useSession } from 'next-auth/react';
 
 
 export default function Navbar() {
+   const session =  useSession()
+
+  //  console.log(session);
+   
+
   const { wishlist } = useWishlist();
 
 
@@ -34,8 +39,9 @@ export default function Navbar() {
 
   const path = usePathname()
   useEffect(() => {
-    setMounted(true);
-   
+    // Use setTimeout to avoid synchronous setState in effect
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
   }, []);
  const {cartData , isLoading}= useContext(cartContext)
 
@@ -52,9 +58,9 @@ export default function Navbar() {
         <li>
           <Link href="/" className={`text-green-600 ${path === '/' ? 'active' : ''}`}>Home</Link>
         </li>
-        <li>
+        {session.status=="authenticated" && <li>
           <Link href="/cart" className={`text-green-600 ${path === '/cart' ? 'active' : ''}`}>Cart</Link>
-        </li>
+        </li>}
         <li>
           <Link href="/product" className={`text-green-600 ${path === '/product' ? 'active' : ''}`}>Products</Link>
         </li>
@@ -64,35 +70,41 @@ export default function Navbar() {
         <li>
           <Link href="/brands" className={`text-green-600 ${path === '/brands' ? 'active' : ''}`}>Brands</Link>
         </li>
+       {session.status== "authenticated" &&  
+        <li>
+          <Link href="/wishlist" className={`text-green-600 ${path === '/wishlist' ? 'active' : ''}`}>Wishlist</Link>
+        </li>}
       </ul>
       {/* Right section: Theme toggle and User Dropdown */}
       <div className="flex items-center space-x-4">
           {/* Wishlist Icon */}
-         <Link href='/wishlist'>
+
+          {session.status=='authenticated' && <Link href='/wishlist'>
          <div className="relative">
           <FaHeart className="w-6 h-6 text-green-500" />
           
           {/* Badge */}
-          {wishlist.length > 0 && (
+          {wishlist && Array.isArray(wishlist) && wishlist.length > 0 && (
             <Badge className="absolute -top-3 -right-3 px-2 py-0.5 text-xs pointer-events-none border-green-500 bg-white dark:bg-card text-green-600 dark:text-green-400 shadow rounded-full flex items-center justify-center">
               {wishlist.length}
             </Badge>
           )}
         </div>
         
-         </Link>
+         </Link>}
+        
 
-        <div className="relative flex items-center">
+       { session.status=='authenticated' &&  <div className="relative flex items-center">
           <Link href='/cart'>
             <FaCartShopping className="text-2xl text-green-600 dark:text-green-400" />
             <Badge
               className="absolute -top-3 -right-3 px-2 py-0.5 text-xs pointer-events-none border-green-500 bg-white dark:bg-card text-green-600 dark:text-green-400 shadow"
               variant="outline"
             >
-              {isLoading ? <Loading className="w-4 h-4 animate-spin" /> : cartData?.numOfCartItems}
+              {isLoading ? '...' : cartData?.numOfCartItems || 0}
             </Badge>
           </Link>
-        </div>
+        </div> }
         
         <button
           onClick={toggleTheme}
@@ -106,17 +118,29 @@ export default function Navbar() {
             <button  aria-label="Open user menu" className="text-foreground"><FaUserAlt /></button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuLabel>
+             {session.status=='authenticated' && <h2>{session.data.user.name}</h2>}
+              </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Link href={'/logout'} className="text-foreground hover:text-primary transition">Logout</Link>
-            </DropdownMenuItem>
+
+
+            {session.status=='authenticated'? <>
+            
+              <DropdownMenuItem onClick={()=>{
+                signOut({
+                  callbackUrl:'/'
+                });
+              }}  className="text-foreground hover:text-primary transition">Logout</DropdownMenuItem>
+            </>:  
+            <>
             <DropdownMenuItem>
               <Link href={'/register'}>Register</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Link href={'/login'}>Login</Link>
-            </DropdownMenuItem>
+            </DropdownMenuItem> 
+            </> }
+          
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

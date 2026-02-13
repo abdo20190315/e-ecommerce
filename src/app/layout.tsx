@@ -7,6 +7,8 @@ import { Toaster } from "react-hot-toast"
 import MySessionProvider from "./_components/mySessionProvider/MySessionProvider";
 import CartContextProvider from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
+import Footer from "./_components/footer/Footer";
+import { SessionProvider } from "next-auth/react";
 
 
 
@@ -36,23 +38,23 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning={true}
       >
-        <WishlistProvider>
-        <CartContextProvider>
         <MySessionProvider>
-       <ThemeProvider>
-          <div className="mb-18">
-          <Navbar  />
-          </div>
-         
-          {children}
-          <Toaster />
-        </ThemeProvider>
-
-       </MySessionProvider>
-
-        </CartContextProvider>
-
-        </WishlistProvider>
+          <WishlistProvider>
+            <CartContextProvider>
+              <ThemeProvider>
+                <div className="mb-18">
+                  <Navbar />
+                </div>
+                
+                {children}
+                <Footer/>
+                <Toaster />
+              </ThemeProvider>
+            </CartContextProvider>
+          </WishlistProvider>
+        </MySessionProvider>
+        
+       
         
       
        

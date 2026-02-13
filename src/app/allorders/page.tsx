@@ -37,8 +37,9 @@ function OrderItemsModal({
                 {item.product && item.product.imageCover && (
                   <img
                     src={item.product.imageCover}
-                    alt={item.product.title}
+                    alt={item.product.title || 'Product image'}
                     className="w-12 h-12 object-cover rounded"
+                    loading="lazy"
                   />
                 )}
                 <div>

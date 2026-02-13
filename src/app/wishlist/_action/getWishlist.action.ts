@@ -1,21 +1,29 @@
 'use server'
 
 import DecodeToken from "@/app/_components/Token/Token";
-export async function getWishlist() {
+import { WishlistResponse } from "@/types/wishlist";
+
+export async function getWishlist(): Promise<WishlistResponse | null> {
   const accessToken = await DecodeToken();  
    
-  
-    const res = await fetch(
-      `https://ecommerce.routemisr.com/api/v1/wishlist`,
-      {
-        method: "GET",
-        headers: {
-          token :accessToken?.token!,
-        },
-        // next:{revalidate:60}
-        cache: "no-store",
-      }
-    );
-  
-    return res.json();
+  if (!accessToken?.token) {
+    return null;
   }
+  
+  const res = await fetch(
+    `https://ecommerce.routemisr.com/api/v1/wishlist`,
+    {
+      method: "GET",
+      headers: {
+        token: accessToken.token,
+      },
+      cache: "no-store",
+    }
+  );
+  
+  if (!res.ok) {
+    return null;
+  }
+  
+  return res.json();
+}

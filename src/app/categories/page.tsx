@@ -26,7 +26,7 @@ export default async function Categories() {
       >
         <Link href={`/categories/${category._id}`}>
         <div className="inner  bg-white dark:bg-gray-800 shadow rounded-lg h-full flex flex-col items-center">
-          <img src={category.image} alt="cat" className="w-full h-60 object-cover rounded-t-lg" />
+          <img src={category.image} alt={category.name || 'Category image'} className="w-full h-60 object-cover rounded-t-lg" loading="lazy" />
           <p className="text-center text-slate-700 dark:text-white font-semibold py-4">
             {category.name}
           </p>
