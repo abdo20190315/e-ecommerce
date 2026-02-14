@@ -9,130 +9,131 @@ import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from "sonner"
+import { z } from "zod"
 
-
+type RegisterFormData = z.infer<typeof Schema>
 
 export default function Register() {
-  let router = useRouter()
+  const router = useRouter()
 
-  const form = useForm({
-    defaultValues:{
-      
-        "name": "",
-        "email":"",
-        "password":"",
-        "rePassword":"",
-        "phone":""
-    
+  const form = useForm<RegisterFormData>({
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      rePassword: "",
+      phone: ""
     },
-    resolver:zodResolver(Schema)
+    resolver: zodResolver(Schema)
   })
- async function handelRegister(values){
-    //call api
+
+  async function handelRegister(values: RegisterFormData) {
     try {
-      const {data} = await axios.post(`https://ecommerce.routemisr.com/api/v1/auth/signup`,values)
-      console.log(data);
-      if(data.message=='success'){
+      const { data } = await axios.post(
+        `https://ecommerce.routemisr.com/api/v1/auth/signup`,
+        values
+      )
+
+      if (data.message === 'success') {
         toast.success("Register Successfully")
         router.push('/login')
-
-
       }
-      
-    } catch (error) {
-      console.log(data.massege);
-      
 
-      
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || "Something went wrong")
+      console.log(error)
     }
-   
-
-console.log(values);
-
   }
- 
 
+  return (
+    <div className="flex justify-center items-center">
+      <div className="w-full max-w-lg bg-white rounded-xl shadow-lg px-5 min-h-[75%]">
+        <h1 className='text-2xl font-bold text-green-700 text-center mb-5 tracking-tight'>
+          Register
+        </h1>
 
-  return <>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handelRegister)}>
+            <div className="flex flex-col gap-6">
 
-  <div className="flex justify-center items-center  ">
-    <div className="w-full max-w-lg bg-white rounded-xl shadow-lg px-5 min-h-[75%]">
-      <h1 className='text-2xl font-bold text-green-700 text-center mb-5 tracking-tight'>Register</h1>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handelRegister)}>
-        <div className="flex flex-col gap-6">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-base font-medium">Name</FormLabel>
-                <FormControl>
-                  <Input type='text' placeholder="Enter your name..." className="mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-base font-medium">Email</FormLabel>
-                <FormControl>
-                  <Input type='email' placeholder="Enter your email..." className="mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-base font-medium">Password</FormLabel>
-                <FormControl>
-                  <Input type='password' placeholder="Enter your password..." className="mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="rePassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-base font-medium">Confirm Password</FormLabel>
-                <FormControl>
-                  <Input type='password' placeholder="Re-enter your password..." className="mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-base font-medium">Phone</FormLabel>
-                <FormControl>
-                  <Input type='tel' placeholder="Enter your phone..." className="mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <Button className="w-full mt-8 bg-green-600">Register</Button>
-        </form>
-      </Form>
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input type='text' placeholder="Enter your name..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input type='email' placeholder="Enter your email..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input type='password' placeholder="Enter your password..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="rePassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirm Password</FormLabel>
+                    <FormControl>
+                      <Input type='password' placeholder="Re-enter your password..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Phone</FormLabel>
+                    <FormControl>
+                      <Input type='tel' placeholder="Enter your phone..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+            </div>
+
+            <Button className="w-full mt-8 bg-green-600">
+              Register
+            </Button>
+          </form>
+        </Form>
+      </div>
     </div>
-  </div>
-
-  
-  </>
+  )
 }
