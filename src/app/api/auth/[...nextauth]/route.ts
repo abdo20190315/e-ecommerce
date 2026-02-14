@@ -1,9 +1,8 @@
-import { JWT } from 'next-auth/jwt';
 import { FailedLoginResponse, SuccessLoginResponse } from "@/types";
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const handler : AuthOptions = NextAuth({
+export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -12,7 +11,6 @@ const handler : AuthOptions = NextAuth({
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        // Replace this with your real user authentication logic
         const res = await fetch("https://ecommerce.routemisr.com/api/v1/auth/signin", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -22,46 +20,45 @@ const handler : AuthOptions = NextAuth({
           }),
         });
 
-        const payload :SuccessLoginResponse|FailedLoginResponse = await res.json();
+        const payload: SuccessLoginResponse | FailedLoginResponse =
+          await res.json();
 
-        if ('token' in payload) {
-          // You can customize user object
+        if ("token" in payload) {
           return {
             id: payload.user.email,
             user: payload.user,
             token: payload.token,
-          }
-        } else {
-          // If login fails, return null;
-          throw new Error(payload.message)
+          };
         }
 
-      }
-    })
+        throw new Error(payload.message);
+      },
+    }),
   ],
-  callbacks: {
-    jwt: ({ token, user }) => {//will encrypt the data 
 
-      if (user){
+  callbacks: {
+    jwt: ({ token, user }) => {
+      if (user) {
         token.user = user.user;
         token.token = user.token;
       }
-
-      return token;//token {user , token}
+      return token;
     },
-    session: ({session , token})=>{//return data will be used
+
+    session: ({ session, token }) => {
       session.user = token.user;
-      //session.token = token.token;
       return session;
-    }
+    },
   },
+
   pages: {
-    signIn: "/login", 
-    error: "/login"
+    signIn: "/login",
+    error: "/login",
   },
-  secret: process.env.NEXTAUTH_SECRET
 
+  secret: process.env.NEXTAUTH_SECRET,
+};
 
-});
+const handler = NextAuth(authOptions);
 
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST };
