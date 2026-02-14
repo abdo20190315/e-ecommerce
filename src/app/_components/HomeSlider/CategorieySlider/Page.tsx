@@ -1,6 +1,7 @@
 import Slider from '../../Slider/Slider';
 
 
+
 export default async function CategorieySlider() {
   const response = await fetch(`https://ecommerce.routemisr.com/api/v1/categories`,
     {
