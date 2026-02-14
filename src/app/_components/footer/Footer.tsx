@@ -1,67 +1,131 @@
-"use client";
+import React from 'react';
+import { MapPin, Phone, Mail } from 'lucide-react';
 
-import React from "react";
-
-import amazonPay from "../../../../public/screens/Amazon_Pay_logo.png";
-import masterCard from "../../../../public/screens/MasterCard-Logo.png";
-import payPal from "../../../../public/screens/PayPal.png";
-import googlePlay from "../../../../public/screens/get-it-on-google-play-badge.png";
-import appleStore from "../../../../public/screens/get-it-on-apple-store.png";
-
-export default function Footer() {
+const Footer = () => {
   return (
-    <div className="w-full bg-gray-100 dark:bg-gray-900 py-6">
-      <div className="container mx-auto px-4">
-        <footer className="space-y-6">
-          {/* App Info */}
-          <div>
-            <h5 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">
-              Get the FreshCart app
-            </h5>
-            <h6 className="text-gray-600 dark:text-gray-300">
-              We will send you a link, open it on your phone to download the app
-            </h6>
-          </div>
-
-          {/* Email input + button */}
-          <div className="flex flex-col md:flex-row md:items-center md:space-x-3 space-y-2 md:space-y-0">
-            <input
-              className="flex-1 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-              type="text"
-              placeholder="Email .."
-            />
-            <button className="bg-green-600 dark:bg-green-500 text-white dark:text-gray-900 rounded-md px-4 py-2 hover:bg-green-700 dark:hover:bg-green-600 transition">
-              Share App Link
-            </button>
-          </div>
-
-          <hr className="border-t border-gray-300 dark:border-gray-700" />
-
-          {/* Payment Partners + App Stores */}
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            {/* Payment Partners */}
-            <div className="flex items-center space-x-4 mb-4 md:mb-0">
-              <span className="text-gray-700 dark:text-gray-300 font-medium">
-                Payment Partners
-              </span>
-              <img src={amazonPay.src} alt="Amazon Pay" className="w-10 h-10 object-contain" loading="lazy" />
-              <img src={masterCard.src} alt="MasterCard" className="w-10 h-10 object-contain" loading="lazy" />
-              <img src={payPal.src} alt="PayPal" className="w-10 h-10 object-contain" loading="lazy" />
+    <footer className="bg-white dark:bg-[#17181A] py-12 px-6 md:px-16 border-t border-gray-100 dark:border-gray-700 text-gray-600 dark:text-gray-300 transition-colors duration-300">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        
+        {/* قسم شعار المتجر والمعلومات */}
+        <div className="lg:col-span-1">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="bg-black dark:bg-white text-white dark:text-black p-1.5 font-bold text-xl flex items-center justify-center w-10 h-10 transition-colors duration-300">
+              S
             </div>
-
-            {/* App Stores */}
-            <div className="flex items-center space-x-4">
-              <div className="text-gray-700 dark:text-gray-300 font-medium">
-                Get deliveries with FreshCart
-              </div>
-              <img src={appleStore.src} alt="Download on Apple Store" className="w-[120px] h-10 object-contain" loading="lazy" />
-              <img src={googlePlay.src} alt="Get it on Google Play" className="w-[120px] h-10 object-contain" loading="lazy" />
+            <span className="text-2xl font-bold text-black dark:text-white transition-colors duration-300">ShopMart</span>
+          </div>
+          <p className="text-sm leading-relaxed mb-6">
+            Your one-stop destination for the latest technology, fashion, and lifestyle products. 
+            Quality guaranteed with fast shipping and excellent customer service.
+          </p>
+          
+          <div className="space-y-3 text-sm">
+            <div className="flex items-start gap-3">
+              <MapPin size={18} className="mt-0.5 shrink-0 text-gray-500 dark:text-gray-400 transition-colors duration-300" />
+              <span>123 Shop Street, Octoper City, DC 12345</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <Phone size={18} className="shrink-0 text-gray-500 dark:text-gray-400 transition-colors duration-300" />
+              <span>(+20) 01093333333</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <Mail size={18} className="shrink-0 text-gray-500 dark:text-gray-400 transition-colors duration-300" />
+              <span>support@shopmart.com</span>
             </div>
           </div>
+        </div>
 
-          <hr className="border-t border-gray-300 dark:border-gray-700" />
-        </footer>
+        {/* SHOP */}
+        <div>
+          <h3 className="font-bold text-black dark:text-white mb-6 text-sm uppercase tracking-wider transition-colors duration-300">SHOP</h3>
+          <ul className="space-y-4 text-sm">
+            <li>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Electronics</a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Fashion</a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Home & Garden</a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Sports</a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Deals</a>
+            </li>
+          </ul>
+        </div>
+
+        {/* CUSTOMER SERVICE */}
+        <div>
+          <h3 className="font-bold text-black dark:text-white mb-6 text-sm uppercase tracking-wider transition-colors duration-300">CUSTOMER SERVICE</h3>
+          <ul className="space-y-4 text-sm">
+            <li>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Contact Us</a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Help Center</a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Track Your Order</a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Returns & Exchanges</a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Size Guide</a>
+            </li>
+          </ul>
+        </div>
+
+        {/* ABOUT */}
+        <div>
+          <h3 className="font-bold text-black dark:text-white mb-6 text-sm uppercase tracking-wider transition-colors duration-300">ABOUT</h3>
+          <ul className="space-y-4 text-sm">
+            <li>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">About shopmart</a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Careers</a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Press</a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Investor Relations</a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Sustainability</a>
+            </li>
+          </ul>
+        </div>
+
+        {/* POLICIES */}
+        <div>
+          <h3 className="font-bold text-black dark:text-white mb-6 text-sm uppercase tracking-wider transition-colors duration-300">POLICIES</h3>
+          <ul className="space-y-4 text-sm">
+            <li>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Privacy Policy</a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Terms of Service</a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Cookie Policy</a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Shipping Policy</a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Refund Policy</a>
+            </li>
+          </ul>
+        </div>
+
       </div>
-    </div>
+    </footer>
   );
-}
+};
+
+export default Footer;
