@@ -207,14 +207,10 @@ export default function Cart() {
                         Continue Shopping
                       </Button>
                     </Link>
-                  </div>
-                </CardContent>
-               
-                <div className="w-full">
-                  <Button
+                    <Button
                     onClick={() => clearItem()}
                     variant="outline"
-                    className="text-red-500 flex items-center w-full"
+                     className="w-full h-11 my-2 text-base bg-white text-black dark:bg-gray-900 dark:text-white border-gray-300 dark:border-gray-700"
                     disabled={isClearing}
                   >
                     <span className="flex-none w-4 h-4 mr-2 flex items-center justify-center overflow-hidden">
@@ -222,7 +218,10 @@ export default function Cart() {
                     </span>
                     <span className="flex-none">Clear Cart</span>
                   </Button>
-                </div>
+                  </div>
+                </CardContent>
+               
+                
               </Card>
 
               {/* Clear Cart */}

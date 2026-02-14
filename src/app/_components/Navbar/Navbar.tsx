@@ -1,5 +1,5 @@
 'use client'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useRef } from 'react'
 
 import Link from 'next/link'
 import { FaUserAlt } from 'react-icons/fa'
@@ -31,6 +31,10 @@ export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuToggleRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const firstFocusableRef = useRef<HTMLElement | null>(null);
+  const lastFocusableRef = useRef<HTMLElement | null>(null);
 
   const path = usePathname()
   useEffect(() => {
@@ -41,7 +45,81 @@ export default function Navbar() {
   const {cartData , isLoading}= useContext(cartContext)
 
   // Used for auto-closing hamburger/mobile menu on link click
-  const handleCloseMenu = () => setMenuOpen(false);
+  const handleCloseMenu = () => {
+    setMenuOpen(false);
+    // Return focus to toggle button when menu closes
+    setTimeout(() => {
+      menuToggleRef.current?.focus();
+    }, 0);
+  };
+
+  // Focus management: trap focus inside menu when open, remove focus when closed
+  useEffect(() => {
+    const menuElement = menuRef.current;
+    if (!menuElement) return;
+
+    if (menuOpen) {
+      // Get all focusable elements inside the menu
+      const focusableElements = menuElement.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+
+      if (focusableElements.length > 0) {
+        firstFocusableRef.current = focusableElements[0];
+        lastFocusableRef.current = focusableElements[focusableElements.length - 1];
+
+        // Focus first element when menu opens
+        setTimeout(() => {
+          firstFocusableRef.current?.focus();
+        }, 100);
+      }
+
+      // Handle keyboard navigation for focus trapping
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key !== 'Tab') return;
+
+        if (e.shiftKey) {
+          // Shift + Tab: if on first element, move to last
+          if (document.activeElement === firstFocusableRef.current) {
+            e.preventDefault();
+            lastFocusableRef.current?.focus();
+          }
+        } else {
+          // Tab: if on last element, move to first
+          if (document.activeElement === lastFocusableRef.current) {
+            e.preventDefault();
+            firstFocusableRef.current?.focus();
+          }
+        }
+      };
+
+      menuElement.addEventListener('keydown', handleKeyDown);
+
+      return () => {
+        menuElement.removeEventListener('keydown', handleKeyDown);
+      };
+    } else {
+      // When menu is closed, remove focus from any element inside it
+      const activeElement = document.activeElement as HTMLElement;
+      if (activeElement && menuElement.contains(activeElement)) {
+        activeElement.blur();
+      }
+    }
+  }, [menuOpen]);
+
+  // Handle Escape key to close menu
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleCloseMenu();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [menuOpen]);
 
   // Main render
   return (
@@ -145,9 +223,11 @@ export default function Navbar() {
 
         {/* Hamburger for mobile only - on the far right */}
         <button
+          ref={menuToggleRef}
           type="button"
           className="block lg:hidden focus:outline-none"
-          aria-label="Open mobile menu"
+          aria-label={menuOpen ? "Close mobile menu" : "Open mobile menu"}
+          aria-expanded={menuOpen}
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? <IoMdClose size={28} /> : <IoMdMenu size={28} />}
@@ -158,10 +238,12 @@ export default function Navbar() {
       {/* Show only on mobile (lg:hidden), overlay full width, slide vertically */}
       {/* By default, menuOpen false: hidden. menuOpen true: visible */}
       <div
+        ref={menuRef}
         className={`fixed top-0 left-0 w-full h-screen bg-white dark:bg-background z-50 transform transition-transform duration-200 ease-in-out
          ${menuOpen ? "translate-x-0" : "-translate-x-full"} lg:hidden`}
         style={{ transitionProperty: 'transform' }}
         aria-hidden={!menuOpen}
+        tabIndex={menuOpen ? -1 : undefined}
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-b-muted">
           <Link href="/" className="flex items-center font-bold text-xl text-green-600 dark:text-green-400" onClick={handleCloseMenu}>
