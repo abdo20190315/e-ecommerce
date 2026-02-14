@@ -156,11 +156,9 @@ export default function Navbar() {
           <Link href='/wishlist' aria-label="Wishlist">
             <div className="relative">
               <FaHeart className="w-6 h-6 text-green-500" />
-              {wishlist && Array.isArray(wishlist) && wishlist.length > 0 && (
-                <Badge className="absolute -top-3 -right-3 px-2 py-0.5 text-xs pointer-events-none border-green-500 bg-white dark:bg-card text-green-600 dark:text-green-400 shadow rounded-full flex items-center justify-center">
-                  {wishlist.length}
-                </Badge>
-              )}
+              <Badge className="absolute -top-3 -right-3 px-2 py-0.5 text-xs pointer-events-none border-green-500 bg-white dark:bg-card text-green-600 dark:text-green-400 shadow rounded-full flex items-center justify-center">
+                {wishlist && Array.isArray(wishlist) ? wishlist.length : 0}
+              </Badge>
             </div>
           </Link>
         )}
