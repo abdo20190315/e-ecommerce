@@ -14,7 +14,7 @@ export default async  function Cart() {
 
             <Link href={`/brands/${brand._id}`}>
             <div className="product p-5">
-              <img src={brand.image }  alt='img'/>
+              <img src={brand.image} alt={brand.name || 'Brand image'} className="w-full h-auto object-contain" loading="lazy" />
               <p className='text-center text-2xl'>{brand.name}</p>
               
             </div>

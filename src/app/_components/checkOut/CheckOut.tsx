@@ -36,7 +36,12 @@ export default function CheckOut({cartId}:{cartId: string}) {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="w-full h-11 text-base" variant="outline">Proceed to Checkout</Button>
+          <Button
+            className="w-full h-11 text-base bg-white text-black dark:bg-gray-900 dark:text-white border-gray-300 dark:border-gray-700"
+            variant="outline"
+          >
+            Proceed to Checkout
+          </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>

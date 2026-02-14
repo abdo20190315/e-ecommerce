@@ -12,6 +12,7 @@ import {
 import Link from 'next/link';
 import { ProductType } from '@/types/productType';
 import AddToCart from '../AddTocart/AddToCart';
+import ImageWithFallback from '../ImageWithFallback/ImageWithFallback'
 
 const ProductCard = memo(function ProductCard({product}:{product:ProductType}) {
   return <>
@@ -19,7 +20,16 @@ const ProductCard = memo(function ProductCard({product}:{product:ProductType}) {
   <Card>
   <Link href={`product/${product._id}`}>
   <CardHeader>
-    <CardTitle> <img src={product.imageCover} className='' /> </CardTitle>
+    <CardTitle> 
+      <ImageWithFallback 
+        src={product.imageCover} 
+        alt={product.title || 'Product image'} 
+        width={400}
+        height={400}
+        loading="lazy"
+        className='w-full h-auto object-cover' 
+      /> 
+    </CardTitle>
 
     <CardDescription>{product.category.name}</CardDescription>
   

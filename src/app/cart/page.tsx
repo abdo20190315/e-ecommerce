@@ -74,112 +74,178 @@ export default function Cart() {
 
 
   return (
-    <>{isLoading || typeof cartData?.data.products[0]?.product == 'string'?<Loading/> : (cartData?.numOfCartItems ?? 0) > 0  ?<div className="container mx-auto px-4 py-10 min-h-[500px] flex items-center justify-center">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">Shopping Cart</h1>
-        <p className="text-muted-foreground mt-1">10 items in your cart</p>
-      </div>
+    <>
+      {isLoading || typeof cartData?.data.products[0]?.product == "string" ? (
+        <div className="flex justify-center items-center min-h-[400px] w-full">
+          <Loading />
+        </div>
+      ) : (cartData?.numOfCartItems ?? 0) > 0 ? (
+        <div className="container mx-auto px-2 sm:px-4 py-6 min-h-[500px] flex flex-col items-center">
+          {/* Header */}
+          <div className="w-full max-w-5xl mb-6 md:mb-10 px-2">
+            <h1 className="text-2xl sm:text-3xl font-bold">Shopping Cart</h1>
+            <p className="text-muted-foreground mt-1 text-sm sm:text-base">
+              {cartData?.numOfCartItems ?? 0} items in your cart
+            </p>
+          </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Cart Items */}
-        {cartData?.data.products.map((item)=><div key={item._id} className="lg:col-span-2 space-y-4">
-          <Card className="rounded-2xl shadow-sm hover:shadow-md transition">
-            <CardContent className="p-5 flex gap-5 items-center">
-              {/* Product Image */}
-              <img
-                src={item.product.imageCover}
-                alt={item.product.title}
-                className="w-24 h-24 object-cover rounded-xl border"
-              />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 w-full max-w-5xl">
+            {/* Cart Items */}
+            <div className="col-span-1 lg:col-span-8 flex flex-col gap-4">
+              {cartData?.data.products.map((item) => (
+                <Card
+                  key={item._id}
+                  className="rounded-xl shadow-sm hover:shadow-md transition"
+                >
+                  <CardContent className="p-4 sm:p-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-7">
+                    {/* Product Image */}
+                    <div className="w-full sm:w-28 flex-shrink-0 mb-2 sm:mb-0 flex justify-center">
+                      <img
+                        src={item.product.imageCover}
+                        alt={item.product.title || 'Product image'}
+                        className="w-24 h-24 object-cover rounded-xl border"
+                        loading="lazy"
+                      />
+                    </div>
 
-              {/* Product Info */}
-              <div className="flex-1">
-                <h3 className="font-semibold text-lg">
-                {item.product.title}
-                </h3>
-                <p className="text-sm text-muted-foreground mt-1">
-                {item.product.brand.name}.{item.product.category.name}
-                </p>
+                    {/* Product Info */}
+                    <div className="flex-1 w-full">
+                      <h3 className="font-semibold text-lg sm:text-xl truncate">
+                        {item.product.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground mt-1 truncate">
+                        {item.product.brand.name} &bull; {item.product.category.name}
+                      </p>
+                      {/* Quantity Controls */}
+                      <div className="flex items-center gap-2 mt-3">
+                        <Button
+                          onClick={() => ubdateCartItem(item.product._id, item.count - 1)}
+                          disabled={item.count === 1 || updatingId === item.product._id}
+                          variant="outline"
+                          size="icon"
+                          className="flex-none"
+                        >
+                          <div className="w-4 h-4 flex items-center justify-center overflow-hidden">
+                            <Minus size={16} />
+                          </div>
+                        </Button>
+                        <span className="flex-none w-8 inline-flex justify-center text-center font-medium">
+                          {updatingId === item.product._id ? (
+                            <span className="w-4 h-4 flex items-center justify-center overflow-hidden">
+                              <Loading />
+                            </span>
+                          ) : (
+                            item.count
+                          )}
+                        </span>
+                        <Button
+                          onClick={() => ubdateCartItem(item.product._id, item.count + 1)}
+                          variant="outline"
+                          size="icon"
+                          disabled={updatingId === item.product._id}
+                          className="flex-none"
+                        >
+                          <div className="w-4 h-4 flex items-center justify-center overflow-hidden">
+                            <Plus size={16} />
+                          </div>
+                        </Button>
+                      </div>
+                    </div>
 
-                {/* Quantity Controls */}
-                <div className="flex items-center gap-3 mt-3">
-                  <Button onClick={()=>ubdateCartItem(item.product._id , item.count-1)} disabled={item.count==1} variant="outline" size="icon">
-                   <Minus size={16} />
+                    {/* Price + Remove */}
+                    <div className="flex flex-col items-end gap-2 sm:gap-3 w-full sm:w-28">
+                      <p className="font-semibold text-lg">{item.price} <span className="text-sm text-muted-foreground">EGP</span></p>
+                      <button
+                        onClick={() => removeCartItem(item.product._id)}
+                        className="flex items-center gap-1 text-red-500 text-sm hover:underline"
+                        disabled={removingId === item.product._id}
+                      >
+                        <span className="flex-none w-4 h-4 flex items-center justify-center overflow-hidden">
+                          {removingId === item.product._id ? (
+                            <Loading />
+                          ) : (
+                            <Trash2 size={16} />
+                          )}
+                        </span>
+                        <span className="flex-none">Remove</span>
+                      </button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {/* Order Summary */}
+            <div className="col-span-1 lg:col-span-4 flex flex-col gap-4">
+              <Card className="rounded-xl shadow-sm sticky top-6">
+                <CardContent className="p-5 sm:p-6 space-y-5">
+                  <h2 className="text-xl font-semibold text-center sm:text-left">
+                    Order Summary
+                  </h2>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">
+                        Subtotal
+                        <span className="hidden sm:inline"> ({cartData?.numOfCartItems} items)</span>
+                      </span>
+                      <span>{cartData?.data.totalCartPrice} EGP</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Shipping</span>
+                      <span className="text-green-600">Free</span>
+                    </div>
+                  </div>
+                  <div className="border-t pt-3 flex justify-between font-semibold text-base sm:text-lg">
+                    <span>Total</span>
+                    <span>{cartData?.data.totalCartPrice} EGP</span>
+                  </div>
+                  <div className="space-y-3">
+                    <CheckOut cartId={cartData?.cartId ?? ""} />
+
+                    <Link href="/product">
+                      <Button variant="secondary"  className="w-full h-11 text-base bg-white text-black dark:bg-gray-900 dark:text-white border-gray-300 dark:border-gray-700">
+                        Continue Shopping
+                      </Button>
+                    </Link>
+                  </div>
+                </CardContent>
+               
+                <div className="w-full">
+                  <Button
+                    onClick={() => clearItem()}
+                    variant="outline"
+                    className="text-red-500 flex items-center w-full"
+                    disabled={isClearing}
+                  >
+                    <span className="flex-none w-4 h-4 mr-2 flex items-center justify-center overflow-hidden">
+                      {isClearing ? <Loading /> : <Trash2 size={16} />}
+                    </span>
+                    <span className="flex-none">Clear Cart</span>
                   </Button>
-                  <span className="w-6 text-center">  {updatingId == item.product._id ? <Loading/> :item.count }</span>
-                  <Button onClick={()=>ubdateCartItem(item.product._id , item.count+1)}  variant="outline" size="icon">
-                    <Plus size={16} />
-                  </Button>
                 </div>
-              </div>
+              </Card>
 
-              {/* Price + Remove */}
-              <div className="text-right space-y-3">
-                <p className="font-semibold text-lg"> {item.price}EGP</p>
-                <button onClick={()=>removeCartItem(item.product._id )} className="flex items-center gap-1 text-red-500 text-sm hover:underline ml-auto">
-                  {removingId == item.product._id? <Loading/> : <Trash2 size={16} />} Remove
-                </button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>)}
-
-        {/* Order Summary */}
-        <div>
-          <Card className="rounded-2xl shadow-sm sticky top-6">
-            <CardContent className="p-6 space-y-6">
-              <h2 className="text-xl font-semibold">Order Summary</h2>
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">
-                    Subtotal ({cartData?.numOfCartItems} items)
-                  </span>
-                  <span>{cartData?.data.totalCartPrice}EGP</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Shipping</span>
-                  <span className="text-green-600">Free</span>
-                </div>
-              </div>
-              <div className="border-t pt-4 flex justify-between font-semibold text-lg">
-                <span>Total</span>
-                <span>{cartData?.data.totalCartPrice} EGP</span>
-              </div>
-              <div className="space-y-3">
-                <CheckOut cartId={cartData?.cartId}/>
-              
-                <Button variant="secondary" className="w-full h-11 text-base">
-                  Continue Shopping
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-          {/* Clear Cart */}
-          <div className="flex justify-end mt-4">
-            <Button onClick={()=>clearItem()} variant="outline" className="text-red-500">
-              <Trash2 size={16} className="mr-2" />
-              Clear Cart
-            </Button>
+              {/* Clear Cart */}
+             
+            </div>
           </div>
         </div>
-      </div>
-    </div> : 
-      <div className="flex flex-col items-center justify-center h-96 space-y-6">
-       
-        <h2 className="text-2xl font-semibold text-gray-800">Your cart is empty</h2>
-        <p className="text-gray-500 mb-4">Looks like you haven&apos;t added any products yet.</p>
-        <Link href="/product">
-          <Button 
-            variant="outline" 
-            className="px-6 py-2 text-base"
-          >
-            Continue Shopping
-          </Button>
-        </Link>
-      </div>
-    }
-    
+      ) : (
+        <div className="flex flex-col items-center justify-center min-h-[60vh] px-4 space-y-6 w-full">
+          <div className="flex flex-col items-center">
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-1">Your cart is empty</h2>
+            <p className="text-gray-500 mb-4 text-center">Looks like you haven&apos;t added any products yet.</p>
+            <Link href="/product">
+              <Button
+                variant="outline"
+                className="px-6 py-2 text-base font-medium"
+              >
+                Continue Shopping
+              </Button>
+            </Link>
+          </div>
+        </div>
+      )}
     </>
   );
 }

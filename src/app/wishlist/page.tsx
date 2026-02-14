@@ -3,6 +3,7 @@ import { WishlistResponse } from "@/types/wishlist";
 import Link from "next/link";
 import { FaStar } from "react-icons/fa";
 
+
 export default async function WishlistPage() {
   const data: WishlistResponse = await getWishlist();
 
@@ -24,8 +25,9 @@ export default async function WishlistPage() {
             >
               <img
                 src={product.imageCover}
-                alt={product.title}
+                alt={product.title || 'Product image'}
                 className="w-full h-52 object-cover rounded"
+                loading="lazy"
               />
 
               <h2 className="mt-3 font-semibold line-clamp-2">

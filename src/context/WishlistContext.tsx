@@ -10,6 +10,7 @@ import {
 
 import { getWishlist } from "@/app/wishlist/_action/getWishlist.action";
 import { WishlistResponse } from "@/types/wishlist";
+import { useSession } from "next-auth/react";
 
 type WishlistContextType = {
   wishlist: string[];
@@ -23,18 +24,35 @@ export const WishlistContext = createContext<WishlistContextType | null>(null);
 export function WishlistProvider({ children }: { children: ReactNode }) {
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { status } = useSession();
 
   async function refreshWishlist() {
+    // Don't fetch if user is not authenticated or still loading
+    if (status === 'loading') {
+      // Keep loading state while session is loading
+      return;
+    }
+    
+    if (status !== 'authenticated') {
+      setWishlist([]);
+      setIsLoading(false);
+      return;
+    }
+
     try {
       setIsLoading(true);
 
-      const data: WishlistResponse = await getWishlist();
+      const data: WishlistResponse | null = await getWishlist();
 
-      const ids = data.data.map(product => product._id);
-
-      setWishlist(ids);
+      if (data?.data && Array.isArray(data.data)) {
+        const ids = data.data.map(product => product._id);
+        setWishlist(ids);
+      } else {
+        setWishlist([]);
+      }
     } catch (error) {
       console.error("Wishlist error:", error);
+      setWishlist([]);
     } finally {
       setIsLoading(false);
     }
@@ -42,7 +60,8 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     refreshWishlist();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status]);
 
   return (
     <WishlistContext.Provider

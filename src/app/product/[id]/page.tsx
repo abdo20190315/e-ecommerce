@@ -1,5 +1,6 @@
 import AddToCart from '@/app/_components/AddTocart/AddToCart';
 import React from 'react'
+import ImageWithFallback from '@/app/_components/ImageWithFallback/ImageWithFallback'
 
 export default async function ProductDetails({params}:{params:{id:string}}) {
 
@@ -11,11 +12,14 @@ const {id} = await params
   return (
     <div className="container mx-auto my-10 p-6 bg-white dark:bg-gray-900 rounded-lg shadow-lg flex flex-col md:flex-row gap-8 max-w-4xl">
       <div className="flex-1 flex justify-center items-start">
-       <img
+       <ImageWithFallback
           src={data.imageCover}
-          alt={data.title}
+          alt={data.title || 'Product image'}
+          width={800}
+          height={800}
+          loading="lazy"
           className="w-full max-w-xs rounded-lg object-cover shadow-md bg-gray-100 dark:bg-gray-800"
-       />
+        />
       </div>
       <div className="flex-1 flex flex-col gap-4">
         <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">{data.title}</h1>
