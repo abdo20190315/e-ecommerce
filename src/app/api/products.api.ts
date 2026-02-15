@@ -1,7 +1,7 @@
 
 
 export default async  function getProduct(){
-    const response = await fetch(`https://ecommerce.routemisr.com/api/v1/products`,{
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/products`,{
         method:'GET',
         //  cache: 'force-cache'
         next:{revalidate:60}

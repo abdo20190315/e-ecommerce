@@ -30,7 +30,7 @@ export default function Register() {
   async function handelRegister(values: RegisterFormData) {
     try {
       const { data } = await axios.post(
-        `https://ecommerce.routemisr.com/api/v1/auth/signup`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/signup`,
         values
       )
 

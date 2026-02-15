@@ -5,7 +5,7 @@ import ImageWithFallback from '@/app/_components/ImageWithFallback/ImageWithFall
 export default async function ProductDetails({params}:{params:{id:string}}) {
 
 const {id} = await params
-  const response = await fetch(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/products/${id}`)
   const {data} = await response.json()
   // console.log(data);
 

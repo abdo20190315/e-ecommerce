@@ -42,7 +42,7 @@ export default function ResetPassword() {
 
   async function resetPassword(values: z.infer<typeof formSchema>) {
     const res = await fetch(
-      `https://ecommerce.routemisr.com/api/v1/auth/resetPassword`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/resetPassword`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },

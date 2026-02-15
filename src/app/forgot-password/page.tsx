@@ -38,7 +38,7 @@ export default function ForgotPassword() {
       async function forgotPassword(email: string) {
         
         const res = await fetch(
-          `https://ecommerce.routemisr.com/api/v1/auth/forgotPasswords`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/forgotPasswords`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },

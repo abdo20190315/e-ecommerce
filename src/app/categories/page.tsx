@@ -5,7 +5,7 @@ import React from 'react'
 export default async function Categories() {
 
 
-  const response = await fetch(`https://ecommerce.routemisr.com/api/v1/categories`,
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/categories`,
     {
     
       //  cache: 'force-cache'

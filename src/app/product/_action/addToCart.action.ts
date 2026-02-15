@@ -8,7 +8,7 @@ export async function addToCart(productId: string) {
 
 
 
-    const response = await fetch(`https://ecommerce.routemisr.com/api/v1/cart`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/cart`, {
         method: 'POST',
         body: JSON.stringify({ productId }),
         headers: {

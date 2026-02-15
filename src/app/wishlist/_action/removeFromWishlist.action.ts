@@ -6,7 +6,7 @@ export async function removeFromWishlist(productId: string) {
    
   
     const res = await fetch(
-      `https://ecommerce.routemisr.com/api/v1/wishlist/${productId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/wishlist/${productId}`,
       {
         method: "DELETE",
         headers: {
