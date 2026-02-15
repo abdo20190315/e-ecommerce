@@ -47,7 +47,9 @@ export default function RootLayout({
                 </div>
                 
                 {children}
+                <div className="mt-18" >
                 <Footer/>
+                </div>
                 <Toaster />
               </ThemeProvider>
             </CartContextProvider>
