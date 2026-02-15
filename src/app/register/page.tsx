@@ -46,9 +46,9 @@ export default function Register() {
   }
 
   return (
-    <div className="flex justify-center items-center">
-      <div className="w-full max-w-lg bg-white rounded-xl shadow-lg px-5 min-h-[75%]">
-        <h1 className='text-2xl font-bold text-green-700 text-center mb-5 tracking-tight'>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors">
+      <div className="w-full max-w-lg bg-white dark:bg-gray-800 rounded-xl shadow-lg px-5 min-h-[75%] transition-colors">
+        <h1 className="text-2xl font-bold text-green-700 dark:text-green-400 text-center mb-5 tracking-tight">
           Register
         </h1>
 
@@ -61,9 +61,14 @@ export default function Register() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel className="text-gray-800 dark:text-gray-200">Name</FormLabel>
                     <FormControl>
-                      <Input type='text' placeholder="Enter your name..." {...field} />
+                      <Input
+                        type="text"
+                        placeholder="Enter your name..."
+                        className="bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600 placeholder:text-gray-400 dark:placeholder:text-gray-400 transition-colors"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -75,9 +80,14 @@ export default function Register() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel className="text-gray-800 dark:text-gray-200">Email</FormLabel>
                     <FormControl>
-                      <Input type='email' placeholder="Enter your email..." {...field} />
+                      <Input
+                        type="email"
+                        placeholder="Enter your email..."
+                        className="bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600 placeholder:text-gray-400 dark:placeholder:text-gray-400 transition-colors"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -89,9 +99,14 @@ export default function Register() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel className="text-gray-800 dark:text-gray-200">Password</FormLabel>
                     <FormControl>
-                      <Input type='password' placeholder="Enter your password..." {...field} />
+                      <Input
+                        type="password"
+                        placeholder="Enter your password..."
+                        className="bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600 placeholder:text-gray-400 dark:placeholder:text-gray-400 transition-colors"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -103,9 +118,14 @@ export default function Register() {
                 name="rePassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
+                    <FormLabel className="text-gray-800 dark:text-gray-200">Confirm Password</FormLabel>
                     <FormControl>
-                      <Input type='password' placeholder="Re-enter your password..." {...field} />
+                      <Input
+                        type="password"
+                        placeholder="Re-enter your password..."
+                        className="bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600 placeholder:text-gray-400 dark:placeholder:text-gray-400 transition-colors"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -117,9 +137,14 @@ export default function Register() {
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone</FormLabel>
+                    <FormLabel className="text-gray-800 dark:text-gray-200">Phone</FormLabel>
                     <FormControl>
-                      <Input type='tel' placeholder="Enter your phone..." {...field} />
+                      <Input
+                        type="tel"
+                        placeholder="Enter your phone..."
+                        className="bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600 placeholder:text-gray-400 dark:placeholder:text-gray-400 transition-colors"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -128,7 +153,7 @@ export default function Register() {
 
             </div>
 
-            <Button className="w-full mt-8 bg-green-600">
+            <Button className="w-full mt-8 bg-green-600 dark:bg-green-700 dark:hover:bg-green-800 transition-colors">
               Register
             </Button>
           </form>
