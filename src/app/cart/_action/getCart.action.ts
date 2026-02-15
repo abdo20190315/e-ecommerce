@@ -13,7 +13,7 @@ export async function getCartAction(): Promise<CartResponse | null> {
         return null;
     }
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/cart`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v2/cart`, {
         headers: {
             token: accessToken.token,
         },

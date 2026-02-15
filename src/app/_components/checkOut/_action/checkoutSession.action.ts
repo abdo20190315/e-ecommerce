@@ -9,7 +9,7 @@ export async function checkoutSessionAction(cartId: string, shippingAddress: {de
 
     const accessToken = await decode({ token: x, secret: process.env.NEXTAUTH_SECRET! });
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/orders/checkout-session/${cartId}?url=http://localhost:3000/allorders`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/orders/checkout-session/${cartId}?url=${process.env.NEXT_PUBLIC_NEXT_URL}/allorders`, {
         method: "POST",
         body: JSON.stringify({ shippingAddress }),
         headers: {
