@@ -82,7 +82,7 @@ export default function AllOrder() {
       setLoading(true);
 
       const { data } = await axios.get(
-        `https://ecommerce.routemisr.com/api/v1/orders/user/${cartOwner}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/orders/user/${cartOwner}`
       );
 
       setOrders(data);

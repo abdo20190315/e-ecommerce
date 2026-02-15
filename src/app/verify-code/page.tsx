@@ -35,7 +35,7 @@ export default function VerifyCode() {
 
   async function verifyCode(resetCode: string) {
     const res = await fetch(
-      `https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/verifyResetCode`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

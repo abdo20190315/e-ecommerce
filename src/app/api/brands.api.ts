@@ -1,5 +1,5 @@
 export default async  function getBrands(){
-    const response = await fetch(`https://ecommerce.routemisr.com/api/v1/brands`,{
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/brands`,{
         method:'GET',
         //  cache: 'force-cache'
         next:{revalidate:60}

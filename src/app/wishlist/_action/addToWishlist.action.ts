@@ -6,7 +6,7 @@ export async function addToWishlist(productId: string) {
   
   
     const res = await fetch(
-      `https://ecommerce.routemisr.com/api/v1/wishlist`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/wishlist`,
       {
         method: "POST",
         headers: {

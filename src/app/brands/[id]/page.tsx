@@ -6,7 +6,7 @@ import React from 'react'
 export default async function BrandDetails({ params }: { params: { id: string } }) {
   const { id } = await params;
 
-  const response = await fetch(`https://ecommerce.routemisr.com/api/v1/products?brand=${id}`,{
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/products?brand=${id}`,{
     next:{revalidate:60}
   }
   );

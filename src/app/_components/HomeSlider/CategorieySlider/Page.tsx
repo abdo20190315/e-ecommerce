@@ -3,7 +3,7 @@ import Slider from '../../Slider/Slider';
 
 
 export default async function CategorieySlider() {
-  const response = await fetch(`https://ecommerce.routemisr.com/api/v1/categories`,
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/categories`,
     {
    
       next:{revalidate:60}
