@@ -8,7 +8,7 @@ export async function addToCart(productId: string) {
 
 
 //test
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/cart`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v2/cart`, {
         method: 'POST',
         body: JSON.stringify({ productId }),
         headers: {
