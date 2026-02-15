@@ -19,11 +19,18 @@ export default function Cart() {
   const [updatingId, setUpdatingId] = useState<null | string>(null);
   const [isClearing, setIsClearing] = useState<boolean>(false);
 
+  // useEffect(() => {
+  //   if (typeof cartData?.data?.products[0]?.product == "string" || cartData == null) {
+  //     getCart();
+  //   }
+  // }, [cartData, getCart]);
+
   useEffect(() => {
-    if (typeof cartData?.data?.products[0]?.product == "string" || cartData == null) {
+    if (!cartData) {
       getCart();
     }
-  }, [cartData, getCart]);
+  }, []);
+  
 
   // ================= Server Actions =================
   async function removeCartItem(productId: string) {
