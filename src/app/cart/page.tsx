@@ -110,9 +110,9 @@ export default function Cart() {
 
                     {/* Product Info */}
                     <div className="flex-1 w-full">
-                      <h3 className="font-semibold text-lg sm:text-xl truncate">
+                      <h6 className="font-semibold  sm:text-xl  line-clamp-2">
                         {item.product.title}
-                      </h3>
+                      </h6>
                       <p className="text-sm text-muted-foreground mt-1 truncate">
                         {item.product.brand.name} &bull; {item.product.category.name}
                       </p>
