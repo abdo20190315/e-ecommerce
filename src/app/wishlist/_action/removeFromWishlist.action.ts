@@ -3,14 +3,17 @@
 import DecodeToken from "@/app/_components/Token/Token";
 export async function removeFromWishlist(productId: string) {
   const accessToken = await DecodeToken();  
-   
-  
+
+  // Prevent sending an undefined token header to the API
+  if (!accessToken?.token) {
+    throw new Error("User not logged in");
+  }
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v1/wishlist/${productId}`,
       {
         method: "DELETE",
         headers: {
-            token:accessToken?.token!,
+            token: accessToken.token,
         },
         // next:{revalidate:60}
         cache: "no-store",

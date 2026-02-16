@@ -4,12 +4,22 @@ import { cookies } from "next/headers";
 import { CartResponse } from "@/types";
 
 export async function getCartAction(): Promise<CartResponse | null> {
-    const x = (await cookies()).get('next-auth.session-token')?.value;
-    if (!x) return null;
+    const cookieStore = await cookies();
 
-    const accessToken = await decode({ token: x, secret: process.env.NEXTAUTH_SECRET! });
-    
-    if (!accessToken?.token) {
+    // Support both dev and production cookie names so decoding works on Vercel too
+    const rawToken =
+        cookieStore.get('next-auth.session-token')?.value ??
+        cookieStore.get('__Secure-next-auth.session-token')?.value;
+
+    if (!rawToken) return null;
+
+    const secret = process.env.NEXTAUTH_SECRET;
+    // Safe fallback: if secret is missing, fail gracefully instead of throwing
+    if (!secret) return null;
+
+    const accessToken = await decode({ token: rawToken, secret });
+
+    if (!accessToken || !accessToken.token) {
         return null;
     }
 
