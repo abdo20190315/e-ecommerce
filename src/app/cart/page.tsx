@@ -207,6 +207,8 @@ export default function Cart() {
                     <span>{cartData?.data.totalCartPrice} EGP</span>
                   </div>
                   <div className="space-y-3">
+
+                    {/* Checkout */}
                     <CheckOut cartId={cartData?.cartId ?? ""} />
 
                     <Link href="/product">
