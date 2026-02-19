@@ -21,7 +21,6 @@ export default function CheckOut({cartId}:{cartId: string}) {
         try {
             const data = await checkoutSessionAction(cartId, shippingAddress);
             console.log(data);
-
             if (data.status == 'success') {
                 window.location.href = data.session.url
             } else {
